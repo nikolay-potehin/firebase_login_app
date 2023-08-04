@@ -1,4 +1,5 @@
 import 'package:firebase_login_app/blocs/authentication/authentication_bloc.dart';
+import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,17 +14,63 @@ class WelcomePage extends StatelessWidget {
         title: const Text('Login App'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.read<AuthenticationBloc>().add(const LoggedOut());
-            },
+            onPressed: () => _onLogoutPressed(context),
             icon: const Icon(Icons.exit_to_app),
           ),
         ],
       ),
       drawer: const Drawer(),
-      body: const Center(
-        child: Text("You're logged in"),
+      body: const WelcomeView(),
+    );
+  }
+}
+
+class WelcomeView extends StatelessWidget {
+  const WelcomeView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final user = context.read<UserRepository>().user;
+
+    return Center(
+      child: Column(
+        children: [
+          const Spacer(),
+          const Text("You're logged in"),
+          const SizedBox(height: 10),
+          Text('UID: ${user?.uid ?? '-'}'),
+          const Spacer(),
+        ],
       ),
     );
   }
+}
+
+void _onLogoutPressed(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Log out'),
+        content: const Text('You sure you want to log out?'),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              context.read<AuthenticationBloc>().add(const LoggedOut());
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      );
+    },
+  );
 }

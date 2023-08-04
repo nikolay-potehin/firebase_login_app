@@ -15,14 +15,26 @@ class CredentialsLoginLoading extends CredentialsState {
   const CredentialsLoginLoading();
 }
 
-class CredentialsLoginFailure extends CredentialsState {
-  const CredentialsLoginFailure();
-}
-
 class CredentialsRegisterLoading extends CredentialsState {
   const CredentialsRegisterLoading();
 }
 
+class CredentialsLoginFailure extends CredentialsState {
+  final String message;
+
+  const CredentialsLoginFailure([String? errorMessage])
+      : message = errorMessage ?? 'Login Failed';
+
+  @override
+  List<Object> get props => [message];
+}
+
 class CredentialsRegisterFailure extends CredentialsState {
-  const CredentialsRegisterFailure();
+  final String message;
+
+  const CredentialsRegisterFailure([String? errorMessage])
+      : message = errorMessage ?? 'Registration Failed';
+
+  @override
+  List<Object> get props => [message];
 }

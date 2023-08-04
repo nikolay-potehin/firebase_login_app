@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_login_app/blocs/authentication/authentication_bloc.dart';
 import 'package:firebase_login_app/firebase_options.dart';
-import 'package:firebase_login_app/repository/user_repository/firebase_repository.dart';
+import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:firebase_login_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +15,7 @@ Future<void> main() async {
 
   runApp(
     Provider(
-      create: (_) => const FirebaseUserRepository(),
+      create: (_) => UserRepository(),
       child: const LoginApp(),
     ),
   );
@@ -26,7 +26,7 @@ class LoginApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = context.read<FirebaseUserRepository>();
+    final repository = context.read<UserRepository>();
 
     return BlocProvider<AuthenticationBloc>(
       create: (_) => AuthenticationBloc(repository),
@@ -37,7 +37,7 @@ class LoginApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
-          primarySwatch: Colors.blueGrey,
+          colorSchemeSeed: Colors.deepOrange,
         ),
       ),
     );

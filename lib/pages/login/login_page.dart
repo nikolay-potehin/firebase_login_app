@@ -1,7 +1,7 @@
 import 'package:firebase_login_app/blocs/authentication/authentication_bloc.dart';
 import 'package:firebase_login_app/blocs/credentials/credentials_bloc.dart';
 import 'package:firebase_login_app/pages/login/login_view.dart';
-import 'package:firebase_login_app/repository/user_repository/firebase_repository.dart';
+import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,17 +10,20 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = context.read<FirebaseUserRepository>();
+    final repository = context.read<UserRepository>();
     final authBloc = context.read<AuthenticationBloc>();
 
-    return Scaffold(
-      appBar: AppBar(),
-      body: BlocProvider(
-        create: (context) => CredentialsBloc(
-          userRepository: repository,
-          authenticationBloc: authBloc,
+    return BlocProvider(
+      create: (context) => CredentialsBloc(
+        userRepository: repository,
+        authenticationBloc: authBloc,
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Login App'),
         ),
-        child: const LoginView(),
+        body: const LoginView(),
       ),
     );
   }

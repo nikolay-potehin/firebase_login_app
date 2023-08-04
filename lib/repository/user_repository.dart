@@ -1,16 +1,21 @@
-abstract class UserRepository {
-  /// Creates the repository for authenticating a user
-  const UserRepository();
+import 'package:firebase_auth/firebase_auth.dart';
 
-  /// Email of the signed user
-  String get signedEmail;
+class UserRepository {
+  User? get user => FirebaseAuth.instance.currentUser;
 
-  /// Login with username and password
-  Future<bool> authenticate(String username, String password);
+  Future<void> authenticate(String username, String password) async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: username,
+      password: password,
+    );
+  }
 
-  /// Registration with username and password
-  Future<bool> register(String username, String password);
+  Future<void> register(String username, String password) async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: username,
+      password: password,
+    );
+  }
 
-  /// Logout
-  Future<void> logOut();
+  Future<void> logOut() => FirebaseAuth.instance.signOut();
 }
