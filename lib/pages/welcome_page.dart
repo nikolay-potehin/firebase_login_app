@@ -1,4 +1,4 @@
-import 'package:firebase_login_app/blocs/authentication/authentication_bloc.dart';
+import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +65,10 @@ void _onLogoutPressed(BuildContext context) {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              context.read<AuthenticationBloc>().add(const LoggedOut());
+              context.read<UserRepository>().logOut();
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (_) => const AuthenticationPage(),
+              ));
             },
             child: const Text('Yes'),
           ),
