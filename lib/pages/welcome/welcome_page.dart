@@ -1,7 +1,9 @@
-import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
+import 'package:firebase_login_app/components/my_drawer.dart';
+import 'package:firebase_login_app/pages/authentication/login/login_page.dart';
+import 'package:firebase_login_app/pages/welcome/welcome_view.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -15,35 +17,12 @@ class WelcomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => _onLogoutPressed(context),
-            icon: const Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
-      drawer: const Drawer(),
+      drawer: const MyDrawer(),
       body: const WelcomeView(),
-    );
-  }
-}
-
-class WelcomeView extends StatelessWidget {
-  const WelcomeView({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final user = context.read<UserRepository>().user;
-
-    return Center(
-      child: Column(
-        children: [
-          const Spacer(),
-          const Text("You're logged in"),
-          const SizedBox(height: 10),
-          Text('UID: ${user?.uid ?? '-'}'),
-          const Spacer(),
-        ],
-      ),
     );
   }
 }
@@ -67,7 +46,7 @@ void _onLogoutPressed(BuildContext context) {
               Navigator.pop(context);
               context.read<UserRepository>().logOut();
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (_) => const AuthenticationPage(),
+                builder: (_) => const LoginPage(),
               ));
             },
             child: const Text('Yes'),

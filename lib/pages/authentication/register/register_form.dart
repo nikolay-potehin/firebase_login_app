@@ -1,4 +1,4 @@
-import 'package:firebase_login_app/pages/welcome_page.dart';
+import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,8 +54,8 @@ class _RegisterFormState extends State<RegisterForm> {
             },
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-              hintText: 'Password',
               prefixIcon: Icon(Icons.lock),
+              hintText: 'Password',
             ),
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))

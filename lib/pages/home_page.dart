@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
-import 'package:firebase_login_app/pages/welcome_page.dart';
+import 'package:firebase_login_app/pages/authentication/login/login_page.dart';
+import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,6 +11,6 @@ class HomePage extends StatelessWidget {
     if (FirebaseAuth.instance.currentUser != null) {
       return const WelcomePage();
     }
-    return const AuthenticationPage();
+    return const LoginPage();
   }
 }

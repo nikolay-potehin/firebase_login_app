@@ -30,8 +30,8 @@ class LoginApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: Utils.messengerKey,
       theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.deepOrange,
+        // useMaterial3: true,
+        colorSchemeSeed: Colors.blue,
       ),
       home: const HomePage(),
     );
