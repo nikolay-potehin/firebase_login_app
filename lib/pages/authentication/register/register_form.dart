@@ -43,6 +43,7 @@ class _RegisterFormState extends State<RegisterForm> {
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
             ],
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(height: 10),
           TextFormField(
@@ -60,6 +61,7 @@ class _RegisterFormState extends State<RegisterForm> {
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
             ],
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(height: 10),
           TextFormField(
@@ -77,6 +79,7 @@ class _RegisterFormState extends State<RegisterForm> {
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
             ],
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(height: 20),
           FilledButton.icon(

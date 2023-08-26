@@ -1,7 +1,8 @@
-import 'package:firebase_login_app/pages/authentication/login/login_page.dart';
 import 'package:firebase_login_app/pages/authentication/register/register_form.dart';
+import 'package:firebase_login_app/repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({
@@ -35,11 +36,9 @@ class RegisterPage extends StatelessWidget {
                   const Text("Already a user?"),
                   const SizedBox(width: 10),
                   TextButton.icon(
-                    onPressed: () => Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                    ),
+                    onPressed: () => context
+                        .read<AuthenticationRepository>()
+                        .currentPage = AuthPages.login,
                     icon: const Icon(Icons.login),
                     label: const Text('Sign In'),
                   ),

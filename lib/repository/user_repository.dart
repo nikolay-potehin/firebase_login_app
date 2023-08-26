@@ -33,4 +33,15 @@ class UserRepository {
   }
 
   Future<void> logOut() => FirebaseAuth.instance.signOut();
+
+  Future<bool> sendPasswordResetEmail(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(
+          e.message ?? 'An error occured in process, please try again later');
+      return false;
+    }
+  }
 }

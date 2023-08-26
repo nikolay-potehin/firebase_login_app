@@ -43,6 +43,7 @@ class _LoginFormState extends State<LoginForm> {
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
             ],
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(height: 20),
           TextFormField(
@@ -58,6 +59,7 @@ class _LoginFormState extends State<LoginForm> {
             inputFormatters: [
               FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
             ],
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(height: 20),
           FilledButton.icon(
