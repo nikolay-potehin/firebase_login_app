@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
+import 'package:firebase_login_app/pages/auth/authentication/authentication_page.dart';
 import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
-import 'package:firebase_login_app/repository/authentication_repository.dart';
+import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,12 +9,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser != null) {
+    final user = context.read<UserRepository>().user;
+
+    if (user != null && user.emailVerified) {
       return const WelcomePage();
     }
-    return ChangeNotifierProvider(
-      create: (context) => AuthenticationRepository(),
-      child: const AuthenticationPage(),
-    );
+    return const AuthenticationPage();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             controller: _usernameController,
             maxLength: 50,
-            validator: _validate,
+            validator: FormValidator.validateEmail,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Email',
@@ -50,9 +51,10 @@ class _RegisterFormState extends State<RegisterForm> {
             controller: _passwordController,
             obscureText: true,
             maxLength: 20,
-            validator: (value) {
-              return _validate(value) ?? _checkPasswords();
-            },
+            validator: (password) => FormValidator.validatePassword(
+              password,
+              compareTo: _passwordConfirmController.text,
+            ),
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.lock),
@@ -68,9 +70,10 @@ class _RegisterFormState extends State<RegisterForm> {
             controller: _passwordConfirmController,
             obscureText: true,
             maxLength: 20,
-            validator: (value) {
-              return _validate(value) ?? _checkPasswords();
-            },
+            validator: (password) => FormValidator.validatePassword(
+              password,
+              compareTo: _passwordController.text,
+            ),
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Confrim Password',
@@ -96,20 +99,6 @@ class _RegisterFormState extends State<RegisterForm> {
         ],
       ),
     );
-  }
-
-  String? _validate(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'This field cannot be empty';
-    }
-    return null;
-  }
-
-  String? _checkPasswords() {
-    if (_passwordController.text == _passwordConfirmController.text) {
-      return null;
-    }
-    return 'Passwords are not equal';
   }
 
   void _registerButtonPressed() async {

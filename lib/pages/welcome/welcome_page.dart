@@ -1,5 +1,5 @@
 import 'package:firebase_login_app/components/my_drawer.dart';
-import 'package:firebase_login_app/pages/authentication/login/login_page.dart';
+import 'package:firebase_login_app/pages/auth/authentication/authentication_page.dart';
 import 'package:firebase_login_app/pages/welcome/welcome_view.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ void _onLogoutPressed(BuildContext context) {
               Navigator.pop(context);
               context.read<UserRepository>().logOut();
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (_) => const LoginPage(),
+                builder: (_) => const AuthenticationPage(),
               ));
             },
             child: const Text('Yes'),

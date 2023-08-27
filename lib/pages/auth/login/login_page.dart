@@ -1,11 +1,12 @@
-import 'package:firebase_login_app/pages/authentication/register/register_form.dart';
+import 'package:firebase_login_app/pages/auth/forgot_password/forgot_password_page.dart';
+import 'package:firebase_login_app/pages/auth/login/login_form.dart';
 import 'package:firebase_login_app/repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({
+class LoginPage extends StatelessWidget {
+  const LoginPage({
     super.key,
   });
 
@@ -25,7 +26,15 @@ class RegisterPage extends StatelessWidget {
                     children: [
                       SvgPicture.asset('assets/flutter_logo.svg'),
                       const SizedBox(height: 10),
-                      const RegisterForm(),
+                      const LoginForm(),
+                      const SizedBox(height: 10),
+                      TextButton.icon(
+                        icon: const Icon(Icons.lock_reset_outlined),
+                        label: const Text('Forgot password?'),
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => const ForgotPasswordPage())),
+                      ),
                     ],
                   ),
                 ),
@@ -33,14 +42,14 @@ class RegisterPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Already a user?"),
+                  const Text("Don't have an account?"),
                   const SizedBox(width: 10),
                   TextButton.icon(
                     onPressed: () => context
                         .read<AuthenticationRepository>()
-                        .currentPage = AuthPages.login,
-                    icon: const Icon(Icons.login),
-                    label: const Text('Sign In'),
+                        .currentPage = AuthPages.register,
+                    icon: const Icon(Icons.vpn_key),
+                    label: const Text('Sign Up'),
                   ),
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
           TextFormField(
             controller: _usernameController,
             maxLength: 50,
-            validator: _validate,
+            validator: FormValidator.validateEmail,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Email',
@@ -50,7 +51,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: _passwordController,
             obscureText: true,
             maxLength: 20,
-            validator: _validate,
+            validator: FormValidator.validatePassword,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Password',
@@ -103,11 +104,4 @@ class _LoginFormState extends State<LoginForm> {
       }
     }
   }
-}
-
-String? _validate(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'This field cannot be empty';
-  }
-  return null;
 }

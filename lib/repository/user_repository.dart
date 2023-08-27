@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_login_app/utils.dart';
+import 'package:firebase_login_app/models/utils.dart';
 
 class UserRepository {
   User? get user => FirebaseAuth.instance.currentUser;
