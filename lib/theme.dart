@@ -40,12 +40,18 @@ const myAppBarTheme = AppBarTheme(
   centerTitle: true,
 );
 
-ThemeData myThemeData() => ThemeData(
-      primarySwatch: myPrimarySwatch,
-      scaffoldBackgroundColor: Colors.white,
-      appBarTheme: myAppBarTheme,
-      inputDecorationTheme: myInputDecorationTheme,
-      filledButtonTheme: myFilledButtonTheme,
-      elevatedButtonTheme: myElevatedButtonTheme,
-      textButtonTheme: myTextButtonTheme,
-    );
+const mySnackBarTheme = SnackBarThemeData(
+  contentTextStyle: TextStyle(fontSize: 16, letterSpacing: 0.25),
+  behavior: SnackBarBehavior.floating,
+);
+
+final myThemeData = ThemeData(
+  primarySwatch: myPrimarySwatch,
+  scaffoldBackgroundColor: Colors.white,
+  appBarTheme: myAppBarTheme,
+  inputDecorationTheme: myInputDecorationTheme,
+  filledButtonTheme: myFilledButtonTheme,
+  elevatedButtonTheme: myElevatedButtonTheme,
+  textButtonTheme: myTextButtonTheme,
+  snackBarTheme: mySnackBarTheme,
+);

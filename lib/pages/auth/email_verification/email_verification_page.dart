@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_login_app/pages/auth/email_verification/email_verification_view.dart';
 import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
-import 'package:firebase_login_app/repository/user_repository.dart';
+import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

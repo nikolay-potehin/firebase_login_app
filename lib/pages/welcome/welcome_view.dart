@@ -1,4 +1,4 @@
-import 'package:firebase_login_app/repository/user_repository.dart';
+import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_login_app/constants.dart';
+import 'package:firebase_login_app/theme.dart';
 import 'package:firebase_login_app/firebase_options.dart';
 import 'package:firebase_login_app/pages/home_page.dart';
-import 'package:firebase_login_app/repository/user_repository.dart';
+import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class LoginApp extends StatelessWidget {
       title: 'Login App',
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: Utils.messengerKey,
-      theme: myThemeData(),
+      theme: myThemeData,
       home: const HomePage(),
     );
   }
