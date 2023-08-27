@@ -1,7 +1,7 @@
+import 'package:firebase_login_app/pages/auth/register/components/new_account_title.dart';
 import 'package:firebase_login_app/pages/auth/register/register_form.dart';
 import 'package:firebase_login_app/repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -14,33 +14,20 @@ class RegisterPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(40),
           child: Column(
             children: [
-              Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      SvgPicture.asset('assets/flutter_logo.svg'),
-                      const SizedBox(height: 10),
-                      const RegisterForm(),
-                    ],
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              const NewAccountTitle(),
+              const SizedBox(height: 30),
+              const RegisterForm(),
+              const SizedBox(height: 10),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   const Text("Already a user?"),
-                  const SizedBox(width: 10),
-                  TextButton.icon(
-                    onPressed: () => context
-                        .read<AuthenticationRepository>()
-                        .currentPage = AuthPages.login,
-                    icon: const Icon(Icons.login),
-                    label: const Text('Sign In'),
+                  TextButton(
+                    onPressed: () => switchToLoginPage(context),
+                    child: const Text('Login'),
                   ),
                 ],
               ),
@@ -49,5 +36,9 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void switchToLoginPage(BuildContext context) {
+    context.read<AuthenticationRepository>().currentPage = AuthPages.login;
   }
 }

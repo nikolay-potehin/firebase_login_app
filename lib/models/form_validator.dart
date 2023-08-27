@@ -1,9 +1,11 @@
+import 'package:firebase_login_app/extensions/string_extensions.dart';
+
 class FormValidator {
   static String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
       return 'Email cannot be empty';
     }
-    if (!email.contains('@') || !email.contains('.')) {
+    if (!email.isValidEmail()) {
       return 'Email adress is badly formatted';
     }
     return null;
@@ -18,6 +20,13 @@ class FormValidator {
     }
     if (compareTo != null && password != compareTo) {
       return 'Password do not match';
+    }
+    return null;
+  }
+
+  static String? validateDefault(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Field cannot be empty';
     }
     return null;
   }

@@ -7,6 +7,24 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    final user = context.read<UserRepository>().user;
+
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showWarning(context);
+
+        return shouldPop ?? false;
+      },
+      child: SafeArea(
+        child: user == null
+            ? const AuthenticationPage()
+            : const EmailVerificationPage(),
+      ),
+    );
+  }
+
   Future<bool?> showWarning(BuildContext context) async => showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -23,20 +41,4 @@ class HomePage extends StatelessWidget {
           ],
         ),
       );
-
-  @override
-  Widget build(BuildContext context) {
-    final user = context.read<UserRepository>().user;
-
-    return WillPopScope(
-      onWillPop: () async {
-        final shouldPop = await showWarning(context);
-
-        return shouldPop ?? false;
-      },
-      child: user == null
-          ? const AuthenticationPage()
-          : const EmailVerificationPage(),
-    );
-  }
 }

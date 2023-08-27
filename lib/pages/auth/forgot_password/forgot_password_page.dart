@@ -7,21 +7,18 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reset Password'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Reset Password')),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              'Receive an email to\nreset your password',
+              'Receive an email to reset your password',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             ForgotPasswordForm(),
           ],
         ),

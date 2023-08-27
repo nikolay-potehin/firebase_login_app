@@ -53,7 +53,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
     );
   }
 
-  Future<void> onLogoutPressed() async {
+  Future onLogoutPressed() async {
     showDialog(
       context: context,
       builder: (context) {

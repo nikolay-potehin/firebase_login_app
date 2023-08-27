@@ -1,8 +1,8 @@
+import 'package:firebase_login_app/components/my_text_form_field.dart';
 import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/pages/auth/email_verification/email_verification_page.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -15,12 +15,14 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
 
   @override
   void dispose() {
     _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _passwordConfirmController.dispose();
     super.dispose();
@@ -32,69 +34,45 @@ class _RegisterFormState extends State<RegisterForm> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
+          MyTextFormField(
             controller: _usernameController,
-            maxLength: 50,
-            validator: FormValidator.validateEmail,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Email',
-              prefixIcon: Icon(Icons.email),
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
-            ],
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: FormValidator.validateDefault,
+            hintText: 'Name',
+            prefixIcon: const Icon(Icons.person_outline),
           ),
-          const SizedBox(height: 10),
-          TextFormField(
+          const SizedBox(height: 16),
+          MyTextFormField(
+            controller: _emailController,
+            validator: FormValidator.validateEmail,
+            hintText: 'Email',
+            prefixIcon: const Icon(Icons.email_outlined),
+          ),
+          const SizedBox(height: 16),
+          MyTextFormField(
             controller: _passwordController,
             obscureText: true,
-            maxLength: 20,
             validator: (password) => FormValidator.validatePassword(
               password,
               compareTo: _passwordConfirmController.text,
             ),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.lock),
-              hintText: 'Password',
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
-            ],
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            prefixIcon: const Icon(Icons.lock_outline),
+            hintText: 'Password',
           ),
-          const SizedBox(height: 10),
-          TextFormField(
+          const SizedBox(height: 16),
+          MyTextFormField(
             controller: _passwordConfirmController,
             obscureText: true,
-            maxLength: 20,
             validator: (password) => FormValidator.validatePassword(
               password,
               compareTo: _passwordController.text,
             ),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Confrim Password',
-              prefixIcon: Icon(Icons.lock),
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
-            ],
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            hintText: 'Confrim Password',
+            prefixIcon: const Icon(Icons.lock_outline),
           ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            style: const ButtonStyle(
-              minimumSize: MaterialStatePropertyAll(Size.fromHeight(50)),
-            ),
+          const SizedBox(height: 30),
+          FilledButton(
             onPressed: _registerButtonPressed,
-            icon: const Icon(Icons.vpn_key),
-            label: const Text(
-              'Sign Up',
-              style: TextStyle(fontSize: 20),
-            ),
+            child: const Text('CREATE ACCOUNT'),
           ),
         ],
       ),
@@ -113,7 +91,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ));
 
       final success = await context.read<UserRepository>().register(
-            _usernameController.text,
+            _emailController.text,
             _passwordController.text,
           );
 

@@ -1,8 +1,9 @@
+import 'package:firebase_login_app/components/my_text_form_field.dart';
 import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/pages/auth/email_verification/email_verification_page.dart';
+import 'package:firebase_login_app/pages/auth/forgot_password/forgot_password_page.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -16,12 +17,12 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -31,55 +32,43 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          TextFormField(
-            controller: _usernameController,
-            maxLength: 50,
+          MyTextFormField(
+            controller: _emailController,
+            hintText: 'Email',
+            prefixIcon: const Icon(Icons.email_outlined),
             validator: FormValidator.validateEmail,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Email',
-              prefixIcon: Icon(Icons.email),
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
-            ],
-            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
-          const SizedBox(height: 20),
-          TextFormField(
+          const SizedBox(height: 16),
+          MyTextFormField(
             controller: _passwordController,
             obscureText: true,
-            maxLength: 20,
             validator: FormValidator.validatePassword,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Password',
-              prefixIcon: Icon(Icons.lock),
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
-            ],
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            hintText: 'Password',
+            prefixIcon: const Icon(Icons.lock_outline),
           ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            style: const ButtonStyle(
-              minimumSize: MaterialStatePropertyAll(Size.fromHeight(50)),
-            ),
-            onPressed: _loginButtonPressed,
-            icon: const Icon(Icons.login),
-            label: const Text(
-              'Sign In',
-              style: TextStyle(fontSize: 20),
-            ),
+          TextButton(
+            onPressed: pushForgotPasswordPage,
+            child: const Text('Forgot Password?'),
+          ),
+          const SizedBox(height: 10),
+          FilledButton(
+            onPressed: login,
+            child: const Text('LOGIN'),
           ),
         ],
       ),
     );
   }
 
-  void _loginButtonPressed() async {
+  void pushForgotPasswordPage() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const ForgotPasswordPage()),
+    );
+  }
+
+  void login() async {
     final isValidationPassed = _formKey.currentState?.validate() ?? false;
 
     if (isValidationPassed) {
@@ -91,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
               ));
 
       final success = await context.read<UserRepository>().authenticate(
-            _usernameController.text,
+            _emailController.text,
             _passwordController.text,
           );
 

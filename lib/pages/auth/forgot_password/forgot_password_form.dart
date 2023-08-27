@@ -1,8 +1,8 @@
+import 'package:firebase_login_app/components/my_text_form_field.dart';
 import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
@@ -30,38 +30,23 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       key: formKey,
       child: Column(
         children: [
-          TextFormField(
-            maxLength: 50,
+          MyTextFormField(
             controller: emailController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Email',
-              prefixIcon: Icon(Icons.email),
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))
-            ],
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            hintText: 'Email',
+            prefixIcon: const Icon(Icons.email_outlined),
             validator: FormValidator.validateEmail,
           ),
           const SizedBox(height: 20),
-          ElevatedButton.icon(
+          FilledButton(
             onPressed: resetPassword,
-            icon: const Icon(Icons.email_outlined),
-            label: const Text(
-              'Reset Password',
-              style: TextStyle(fontSize: 20),
-            ),
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(50),
-            ),
+            child: const Text('RESET PASSWORD'),
           ),
         ],
       ),
     );
   }
 
-  Future<void> resetPassword() async {
+  Future resetPassword() async {
     if (!formKey.currentState!.validate()) return;
 
     showDialog(
