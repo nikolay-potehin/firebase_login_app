@@ -20,6 +20,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Email Verification'),
+        centerTitle: true,
       ),
       body: Center(
         child: Padding(
@@ -27,9 +28,10 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'A verification email has been sent to your email',
-                style: TextStyle(fontSize: 20),
+              Text(
+                'A verification email has been sent to your email '
+                '"${context.read<UserRepository>().user?.email}"',
+                style: const TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),

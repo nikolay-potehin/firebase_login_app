@@ -26,7 +26,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     isEmailVerified = userRepository.user?.emailVerified ?? false;
 
     if (!isEmailVerified) {
-      userRepository.user?.sendEmailVerification();
+      userRepository.sendVerificationEmail();
 
       timer = Timer.periodic(
         const Duration(seconds: 3),
@@ -44,7 +44,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   }
 
   void checkEmailVerified() async {
-    await userRepository.user?.reload();
+    await userRepository.reloadUser();
 
     setState(() {
       isEmailVerified = userRepository.user?.emailVerified ?? false;

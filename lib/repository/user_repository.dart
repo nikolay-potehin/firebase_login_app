@@ -32,7 +32,7 @@ class UserRepository {
     }
   }
 
-  Future<void> logOut() => FirebaseAuth.instance.signOut();
+  Future logOut() => FirebaseAuth.instance.signOut();
 
   Future<bool> sendPasswordResetEmail(String email) async {
     try {
@@ -54,5 +54,9 @@ class UserRepository {
           e.message ?? 'An error occured in process, please try again later');
       return false;
     }
+  }
+
+  Future reloadUser() async {
+    await FirebaseAuth.instance.currentUser!.reload();
   }
 }
