@@ -44,4 +44,15 @@ class UserRepository {
       return false;
     }
   }
+
+  Future<bool> sendVerificationEmail() async {
+    try {
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(
+          e.message ?? 'An error occured in process, please try again later');
+      return false;
+    }
+  }
 }

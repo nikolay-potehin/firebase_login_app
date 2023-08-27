@@ -1,5 +1,5 @@
 import 'package:firebase_login_app/models/form_validator.dart';
-import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
+import 'package:firebase_login_app/pages/auth/email_verification/email_verification_page.dart';
 import 'package:firebase_login_app/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -121,7 +121,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
       if (success) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const WelcomePage(),
+          builder: (_) => const EmailVerificationPage(),
         ));
       }
     }
