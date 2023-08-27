@@ -1,13 +1,14 @@
 import 'package:firebase_login_app/pages/auth/register/components/new_account_title.dart';
 import 'package:firebase_login_app/pages/auth/register/register_form.dart';
-import 'package:firebase_login_app/repositories/authentication_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({
     super.key,
+    required this.switchToLoginPage,
   });
+
+  final VoidCallback switchToLoginPage;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class RegisterPage extends StatelessWidget {
                 children: [
                   const Text("Already a user?"),
                   TextButton(
-                    onPressed: () => switchToLoginPage(context),
+                    onPressed: () => switchToLoginPage(),
                     child: const Text('Login'),
                   ),
                 ],
@@ -36,9 +37,5 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void switchToLoginPage(BuildContext context) {
-    context.read<AuthenticationRepository>().currentPage = AuthPages.login;
   }
 }

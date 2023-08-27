@@ -38,6 +38,7 @@ dependencies:
   equatable: ^2.0.5
   provider: ^6.0.5
   flutter_svg: ^2.0.5
+  cloud_firestore: ^4.9.0
 
 dev_dependencies:
   flutter_test:

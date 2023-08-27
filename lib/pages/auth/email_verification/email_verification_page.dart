@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_login_app/pages/auth/email_verification/email_verification_view.dart';
-import 'package:firebase_login_app/pages/welcome/welcome_page.dart';
+import 'package:firebase_login_app/pages/home/home_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,8 +55,6 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return isEmailVerified
-        ? const WelcomePage()
-        : const EmailVerificationView();
+    return isEmailVerified ? const HomePage() : const EmailVerificationView();
   }
 }

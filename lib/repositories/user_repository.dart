@@ -32,7 +32,7 @@ class UserRepository {
     }
   }
 
-  Future logOut() => FirebaseAuth.instance.signOut();
+  Future logout() => FirebaseAuth.instance.signOut();
 
   Future<bool> sendPasswordResetEmail(String email) async {
     try {

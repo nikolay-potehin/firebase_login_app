@@ -1,7 +1,7 @@
-import 'package:firebase_login_app/pages/auth/authentication/authentication_view.dart';
-import 'package:firebase_login_app/repositories/authentication_repository.dart';
+import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/pages/auth/login/login_page.dart';
+import 'package:firebase_login_app/pages/auth/register/register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({super.key});
@@ -11,10 +11,29 @@ class AuthenticationPage extends StatefulWidget {
 }
 
 class _AuthenticationPageState extends State<AuthenticationPage> {
+  bool isLoginPageShown = true;
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => AuthenticationRepository(),
-        child: const AuthenticationView());
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await Utils.showExitWarning(context);
+
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        body: isLoginPageShown
+            ? LoginPage(
+                switchToRegisterPage: () => setState(() {
+                  isLoginPageShown = false;
+                }),
+              )
+            : RegisterPage(
+                switchToLoginPage: () => setState(() {
+                  isLoginPageShown = true;
+                }),
+              ),
+      ),
+    );
   }
 }
