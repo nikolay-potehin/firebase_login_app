@@ -13,12 +13,18 @@ class WelcomeView extends StatelessWidget {
 
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Spacer(),
-          const Text("You're logged in"),
+          const Text(
+            "You're logged in",
+            style: TextStyle(fontSize: 20),
+          ),
           const SizedBox(height: 10),
-          Text('UID: ${user?.uid ?? '-'}'),
-          const Spacer(),
+          Text(
+            user?.email ?? '-',
+            style: const TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

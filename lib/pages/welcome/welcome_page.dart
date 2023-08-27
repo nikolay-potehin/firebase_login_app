@@ -12,11 +12,10 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: const Text('Login App'),
         actions: [
           IconButton(
-            onPressed: () => _onLogoutPressed(context),
+            onPressed: () => logout(context),
             icon: const Icon(Icons.logout),
           ),
         ],
@@ -27,7 +26,7 @@ class WelcomePage extends StatelessWidget {
   }
 }
 
-void _onLogoutPressed(BuildContext context) {
+void logout(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) {

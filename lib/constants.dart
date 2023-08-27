@@ -29,6 +29,12 @@ final myTextButtonTheme = TextButtonThemeData(
   textStyle: const TextStyle(fontWeight: FontWeight.w500),
 ));
 
+final myElevatedButtonTheme = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+  foregroundColor: Colors.white,
+  textStyle: const TextStyle(fontWeight: FontWeight.w500),
+));
+
 const myAppBarTheme = AppBarTheme(
   foregroundColor: Colors.white,
   centerTitle: true,
@@ -37,8 +43,9 @@ const myAppBarTheme = AppBarTheme(
 ThemeData myThemeData() => ThemeData(
       primarySwatch: myPrimarySwatch,
       scaffoldBackgroundColor: Colors.white,
+      appBarTheme: myAppBarTheme,
       inputDecorationTheme: myInputDecorationTheme,
       filledButtonTheme: myFilledButtonTheme,
+      elevatedButtonTheme: myElevatedButtonTheme,
       textButtonTheme: myTextButtonTheme,
-      appBarTheme: myAppBarTheme,
     );

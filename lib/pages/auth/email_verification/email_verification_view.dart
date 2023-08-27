@@ -18,42 +18,30 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Email Verification'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'A verification email has been sent to your email '
-                '"${context.read<UserRepository>().user?.email}"',
-                style: const TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: onLogoutPressed,
-                icon: const Icon(Icons.logout),
-                label: const Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 24),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                ),
-              ),
-            ],
-          ),
+      appBar: AppBar(title: const Text('Email Verification')),
+      body: Padding(
+        padding: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'A verification email has been sent to your email '
+              '"${context.read<UserRepository>().user?.email}"',
+              style: const TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            FilledButton(
+              onPressed: logout,
+              child: const Text('CANCEL'),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Future onLogoutPressed() async {
+  Future logout() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -63,9 +51,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
               'You sure you want to cancel email verification & log out?'),
           actions: [
             ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context),
               child: const Text('No'),
             ),
             TextButton(
