@@ -1,7 +1,7 @@
 import 'package:firebase_login_app/models/utils.dart';
-import 'package:firebase_login_app/pages/account_page.dart';
-import 'package:firebase_login_app/pages/inbox_page.dart';
-import 'package:firebase_login_app/pages/people_page.dart';
+import 'package:firebase_login_app/pages/home/account/account_page.dart';
+import 'package:firebase_login_app/pages/home/inbox/inbox_page.dart';
+import 'package:firebase_login_app/pages/home/people/people_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
