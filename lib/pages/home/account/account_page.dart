@@ -11,6 +11,7 @@ class AccountPage extends StatelessWidget {
     final user = UserRepository.user;
 
     return Scaffold(
+      appBar: AppBar(title: const Text('Account')),
       body: Padding(
         padding: const EdgeInsets.all(40),
         child: Center(

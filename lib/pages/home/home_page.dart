@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
         return shouldPop ?? false;
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Login App')),
         body: _pages[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
