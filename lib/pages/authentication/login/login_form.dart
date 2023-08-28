@@ -4,7 +4,6 @@ import 'package:firebase_login_app/pages/authentication/email_verification/email
 import 'package:firebase_login_app/pages/authentication/forgot_password/forgot_password_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -80,10 +79,10 @@ class _LoginFormState extends State<LoginForm> {
                 child: CircularProgressIndicator(),
               ));
 
-      final success = await context.read<UserRepository>().authenticate(
-            _emailController.text,
-            _passwordController.text,
-          );
+      final success = await UserRepository.authenticate(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
 
       Navigator.popUntil(context, (route) => route.isFirst);
 

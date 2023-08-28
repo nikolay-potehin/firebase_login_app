@@ -3,7 +3,6 @@ import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
   const ForgotPasswordForm({
@@ -56,8 +55,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     );
 
     final email = emailController.text.trim();
-    final successful =
-        await context.read<UserRepository>().sendPasswordResetEmail(email);
+    final successful = await UserRepository.sendPasswordResetEmail(email);
 
     if (successful) {
       Utils.showSnackBar(

@@ -1,7 +1,6 @@
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EmailVerificationView extends StatefulWidget {
   const EmailVerificationView({
@@ -24,7 +23,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
           children: [
             Text(
               'A verification email has been sent to your email '
-              '"${context.read<UserRepository>().user?.email}"',
+              '"${UserRepository.user?.email}"',
               style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),

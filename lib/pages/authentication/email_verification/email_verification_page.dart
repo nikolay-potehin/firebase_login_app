@@ -4,7 +4,6 @@ import 'package:firebase_login_app/pages/authentication/email_verification/email
 import 'package:firebase_login_app/pages/home/home_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EmailVerificationPage extends StatefulWidget {
   const EmailVerificationPage({super.key});
@@ -16,23 +15,19 @@ class EmailVerificationPage extends StatefulWidget {
 class _EmailVerificationPageState extends State<EmailVerificationPage> {
   bool isEmailVerified = false;
   Timer? timer;
-  late final UserRepository userRepository;
 
   @override
   void initState() {
     super.initState();
-    userRepository = context.read<UserRepository>();
 
-    isEmailVerified = userRepository.user?.emailVerified ?? false;
+    isEmailVerified = UserRepository.user?.emailVerified ?? false;
 
     if (!isEmailVerified) {
-      userRepository.sendVerificationEmail();
+      UserRepository.sendVerificationEmail();
 
       timer = Timer.periodic(
         const Duration(seconds: 3),
-        (_) {
-          if (mounted) checkEmailVerified();
-        },
+        (_) => checkEmailVerified(),
       );
     }
   }
@@ -44,17 +39,20 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   }
 
   void checkEmailVerified() async {
-    await userRepository.reloadUser();
-
-    setState(() {
-      isEmailVerified = userRepository.user?.emailVerified ?? false;
-    });
+    await UserRepository.reload();
+    if (mounted) {
+      setState(() {
+        isEmailVerified = UserRepository.user?.emailVerified ?? false;
+      });
+    }
 
     if (isEmailVerified) timer?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
+    UserRepository.reload();
+
     return isEmailVerified ? const HomePage() : const EmailVerificationView();
   }
 }

@@ -3,7 +3,6 @@ import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/pages/authentication/email_verification/email_verification_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -90,10 +89,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 child: CircularProgressIndicator(),
               ));
 
-      final success = await context.read<UserRepository>().register(
-            _emailController.text,
-            _passwordController.text,
-          );
+      final success = await UserRepository.register(
+        email: _emailController.text,
+        password: _passwordController.text,
+        displayName: _usernameController.text,
+      );
 
       Navigator.of(context).popUntil((route) => route.isFirst);
 

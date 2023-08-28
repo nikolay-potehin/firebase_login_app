@@ -1,7 +1,6 @@
 import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Utils {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -50,7 +49,7 @@ class Utils {
             ),
             TextButton(
               onPressed: () {
-                context.read<UserRepository>().logout();
+                UserRepository.logout();
                 Navigator.of(context).popUntil((route) => route.isFirst);
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (_) => const AuthenticationPage(),

@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/repositories/firestore_repository.dart';
 
 class UserRepository {
-  User? get user => FirebaseAuth.instance.currentUser;
+  static User? get user => FirebaseAuth.instance.currentUser;
 
-  Future<bool> authenticate(String username, String password) async {
+  static Future<bool> authenticate({
+    required String email,
+    required String password,
+  }) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: username,
+        email: email,
         password: password,
       );
       return true;
@@ -18,12 +22,18 @@ class UserRepository {
     }
   }
 
-  Future<bool> register(String username, String password) async {
+  static Future<bool> register({
+    required String email,
+    required String password,
+    required String displayName,
+  }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: username,
+        email: email,
         password: password,
       );
+      user?.updateDisplayName(displayName);
+
       return true;
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(
@@ -32,9 +42,9 @@ class UserRepository {
     }
   }
 
-  Future logout() => FirebaseAuth.instance.signOut();
+  static Future<void> logout() => FirebaseAuth.instance.signOut();
 
-  Future<bool> sendPasswordResetEmail(String email) async {
+  static Future<bool> sendPasswordResetEmail(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return true;
@@ -45,7 +55,7 @@ class UserRepository {
     }
   }
 
-  Future<bool> sendVerificationEmail() async {
+  static Future<bool> sendVerificationEmail() async {
     try {
       await FirebaseAuth.instance.currentUser!.sendEmailVerification();
       return true;
@@ -56,7 +66,9 @@ class UserRepository {
     }
   }
 
-  Future reloadUser() async {
+  static Future<void> reload() async {
+    if (user == null) return;
     await FirebaseAuth.instance.currentUser!.reload();
+    await FirestoreRepository.setUser(user!);
   }
 }
