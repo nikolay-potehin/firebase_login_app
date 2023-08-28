@@ -50,22 +50,12 @@ class _InboxPageState extends State<InboxPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: sendMessage,
-        child: const Icon(Icons.send, color: Colors.white),
-      ),
     );
   }
 
   Future<void> refresh() async {
     AppData.reloadMessages();
     await Future.delayed(const Duration(seconds: 1));
-    if (mounted) setState(() {});
-  }
-
-  void sendMessage() async {
-    await AppData.sendMessage();
-    AppData.reloadMessages();
     if (mounted) setState(() {});
   }
 

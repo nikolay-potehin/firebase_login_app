@@ -14,8 +14,11 @@ class AppData {
         UserRepository.user!,
       );
 
-  static Future<void> sendMessage() async {
-    await FirestoreRepository.sendMessage(UserRepository.user!);
+  static Future<void> sendMessage({required String toEmail}) async {
+    await FirestoreRepository.sendMessage(
+      fromEmail: UserRepository.user?.email ?? 'Anonymous',
+      toEmail: toEmail,
+    );
   }
 
   static Future<void> deleteMessages() async {

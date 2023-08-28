@@ -29,23 +29,27 @@ class UserData {
 
   bool get isCurrentUser => email == UserRepository.user?.email;
 
-  String buildTitle() {
+  Widget buildTitle() {
     String result = isCurrentUser ? '(You) ' : '';
     result += displayName != null ? displayName! : email;
 
-    return result;
+    return Text(result);
   }
 
-  Widget asWidget() => Card(
+  Widget asWidget({required VoidCallback onTap}) => Card(
         child: ListTile(
-          onTap: () => Utils.showSnackBar('This is ${displayName ?? email}'),
           enabled: !isCurrentUser,
-          title: Text(buildTitle()),
+          onTap: () => Utils.showSnackBar('This is ${displayName ?? email}'),
+          title: buildTitle(),
           subtitle: displayName != null ? Text(email) : null,
           leading: const CircleAvatar(),
-          trailing: Icon(
-            Icons.email,
-            color: isCurrentUser ? myPrimarySwatch.shade200 : myPrimarySwatch,
+          trailing: IconButton(
+            constraints: const BoxConstraints(),
+            onPressed: isCurrentUser ? null : onTap,
+            icon: Icon(
+              Icons.email,
+              color: isCurrentUser ? myPrimarySwatch.shade200 : myPrimarySwatch,
+            ),
           ),
         ),
       );

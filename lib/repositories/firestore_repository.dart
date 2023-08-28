@@ -23,17 +23,32 @@ class FirestoreRepository {
         );
   }
 
-  static Future<void> sendMessage(User user) {
+  static Future<void> sendMessage({
+    required String fromEmail,
+    required String toEmail,
+  }) async {
+    final recipientExists = await firestore.collection('users').get().then(
+            (collection) => collection.docs
+                .indexWhere((element) => element.id == toEmail)) !=
+        -1;
+
+    if (!recipientExists) {
+      // TODO: implement error, such user doesn't exist
+      return;
+    }
+
     return firestore
         .collection('users')
-        .doc(user.email)
+        .doc(toEmail)
         .collection('messages')
         .doc()
         .set(
           MessageData(
+            fromEmail: fromEmail,
+            toEmail: toEmail,
             title: 'New Message',
             content:
-                'This is a message content. There you put you message basically.',
+                'This is a message content. There you put your message basically.',
           ).toJson(),
         );
   }
