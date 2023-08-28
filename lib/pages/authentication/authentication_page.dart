@@ -1,6 +1,6 @@
 import 'package:firebase_login_app/models/utils.dart';
-import 'package:firebase_login_app/pages/auth/login/login_page.dart';
-import 'package:firebase_login_app/pages/auth/register/register_page.dart';
+import 'package:firebase_login_app/pages/authentication/login/login_page.dart';
+import 'package:firebase_login_app/pages/authentication/register/register_page.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationPage extends StatefulWidget {
