@@ -15,7 +15,7 @@ class MessageData {
   final String toEmail;
   final Timestamp sendAtTime;
 
-  factory MessageData.fromSnapshot(
+  factory MessageData.fromDocument(
           DocumentSnapshot<Map<String, dynamic>> snapshot) =>
       MessageData.fromJson(snapshot.data()!);
 

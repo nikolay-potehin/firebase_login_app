@@ -37,21 +37,22 @@ class Utils {
       );
 
   static Future<T> showLoading<T>(
-    BuildContext context,
+    BuildContext dialogContext,
     Future<T> future,
   ) async {
-    context = Scaffold.of(context).context;
-
     showDialog(
-      context: context,
+      context: dialogContext,
       barrierDismissible: false,
-      builder: (_) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+      builder: (context) {
+        dialogContext = context;
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
 
     await future;
-    if (context.mounted) Navigator.of(context).pop();
+    if (dialogContext.mounted) Navigator.of(dialogContext).pop();
     return future;
   }
 }

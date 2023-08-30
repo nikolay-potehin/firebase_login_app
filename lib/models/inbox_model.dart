@@ -27,15 +27,18 @@ class InboxModel extends ChangeNotifier {
 
   void deleteAllMessages() async {
     // TODO: change to bacth/transaction
-    return await FirebaseFirestore.instance
+    final batch = FirebaseFirestore.instance.batch();
+
+    final messages = await FirebaseFirestore.instance
         .collection('users')
         .doc(UserRepository.user!.email)
         .collection('messages')
-        .get()
-        .then((collection) {
-      for (final doc in collection.docs) {
-        doc.reference.delete();
-      }
-    });
+        .get();
+
+    for (var document in messages.docs) {
+      batch.delete(document.reference);
+    }
+
+    await batch.commit();
   }
 }

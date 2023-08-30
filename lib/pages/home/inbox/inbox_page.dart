@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
+import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/pages/home/inbox/empty_inbox_widget.dart';
 import 'package:firebase_login_app/pages/home/inbox/message_tile.dart';
+import 'package:firebase_login_app/pages/home/message/message_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,15 +12,13 @@ class InboxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<InboxModel>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inbox'),
         actions: [
           IconButton(
-            onPressed: model.deleteAllMessages,
-            icon: const Icon(Icons.delete_outline),
+            onPressed: () => _deleteAllMessages(context),
+            icon: const Icon(Icons.delete_forever),
           )
         ],
       ),
@@ -26,20 +28,48 @@ class InboxPage extends StatelessWidget {
             final length = model.receivedMessages?.size;
             final messages = model.receivedMessages?.docs;
 
-            return messages == null
-                ? const CircularProgressIndicator()
-                : ListView.builder(
-                    padding: const EdgeInsets.all(20),
-                    itemCount: length,
-                    itemBuilder: (context, index) {
-                      final doc = messages[index];
+            if (messages == null) return const CircularProgressIndicator();
 
-                      return MessageTile(doc: doc);
-                    },
-                  );
+            if (messages.isEmpty) return const EmptyInboxWidget();
+
+            return ListView.builder(
+              padding: const EdgeInsets.all(20),
+              itemCount: length,
+              itemBuilder: (context, index) {
+                final doc = messages[index];
+
+                return MessageTile(
+                  doc: doc,
+                  onTap: () => _openMessage(context, doc),
+                );
+              },
+            );
           },
         ),
       ),
     );
+  }
+
+  void _openMessage(
+    BuildContext context,
+    DocumentSnapshot<Map<String, dynamic>> doc,
+  ) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => MessagePage(doc),
+    ));
+  }
+
+  void _deleteAllMessages(BuildContext context) async {
+    final shouldDelete = await Utils.showWarning(
+          context,
+          title: 'Delete All Messages',
+          content:
+              'You are about to delete all of your messages. Are you sure?',
+        ) ??
+        false;
+
+    if (shouldDelete && context.mounted) {
+      context.read<InboxModel>().deleteAllMessages();
+    }
   }
 }

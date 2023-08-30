@@ -6,6 +6,7 @@ class MessageTile extends StatelessWidget {
   MessageTile({
     super.key,
     required this.doc,
+    required this.onTap,
   })  : title = doc.get('title') as String,
         content = doc.get('content') as String,
         fromEmail = doc.get('fromEmail') as String,
@@ -13,6 +14,7 @@ class MessageTile extends StatelessWidget {
         sendAtTime = doc.get('sendAtTime') as Timestamp;
 
   final QueryDocumentSnapshot<Map<String, dynamic>> doc;
+  final VoidCallback onTap;
   final String title;
   final String content;
   final String fromEmail;
@@ -23,12 +25,7 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        onTap: () {
-          // Navigator.of(context).push(MaterialPageRoute(
-          //   builder: (context) => MessagePage(this),
-          // ));
-          // TODO: Refator this
-        },
+        onTap: onTap,
         title: Text(title),
         subtitle: Text(
           sendAtTime.toTimeString(),
