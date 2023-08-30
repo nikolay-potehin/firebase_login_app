@@ -40,17 +40,18 @@ class _RegisterFormState extends State<RegisterForm> {
             hintText: 'Name',
             prefixIcon: const Icon(Icons.person_outline),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           MyTextFormField(
             controller: _emailController,
             validator: FormValidator.validateEmail,
             hintText: 'Email',
             prefixIcon: const Icon(Icons.email_outlined),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           MyTextFormField(
             controller: _passwordController,
             obscureText: true,
+            hideButton: true,
             validator: (password) => FormValidator.validatePassword(
               password,
               compareTo: _passwordConfirmController.text,
@@ -58,10 +59,11 @@ class _RegisterFormState extends State<RegisterForm> {
             prefixIcon: const Icon(Icons.lock_outline),
             hintText: 'Password',
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           MyTextFormField(
             controller: _passwordConfirmController,
             obscureText: true,
+            hideButton: true,
             validator: (password) => FormValidator.validatePassword(
               password,
               compareTo: _passwordController.text,

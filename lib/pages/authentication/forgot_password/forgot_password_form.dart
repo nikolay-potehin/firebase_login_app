@@ -35,7 +35,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
             prefixIcon: const Icon(Icons.email_outlined),
             validator: FormValidator.validateEmail,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           FilledButton(
             onPressed: resetPassword,
             child: const Text('RESET PASSWORD'),

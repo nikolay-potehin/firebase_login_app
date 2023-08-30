@@ -40,10 +40,11 @@ class _LoginFormState extends State<LoginForm> {
             prefixIcon: const Icon(Icons.email_outlined),
             validator: FormValidator.validateEmail,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           MyTextFormField(
             controller: _passwordController,
             obscureText: true,
+            hideButton: true,
             validator: FormValidator.validatePassword,
             hintText: 'Password',
             prefixIcon: const Icon(Icons.lock_outline),

@@ -7,7 +7,7 @@ final myPrimarySwatch = MaterialColorGenerator.from(
 
 const myInputDecorationTheme = InputDecorationTheme(
   border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10)),
+    borderRadius: BorderRadius.all(Radius.circular(12)),
   ),
   fillColor: Colors.white,
   filled: true,
