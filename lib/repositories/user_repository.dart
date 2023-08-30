@@ -49,8 +49,8 @@ class UserRepository {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return true;
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(
-          e.message ?? 'An error occured in process, please try again later');
+      Utils.showSnackBar(e.message ??
+          'Couldn\'t send password reset email, please try again later');
       return false;
     }
   }
@@ -60,15 +60,21 @@ class UserRepository {
       await FirebaseAuth.instance.currentUser!.sendEmailVerification();
       return true;
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(
-          e.message ?? 'An error occured in process, please try again later');
+      Utils.showSnackBar(e.message ??
+          'Couldn\'t send password reset email, please try again later');
       return false;
     }
   }
 
   static Future<void> reload() async {
     if (user == null) return;
-    await FirebaseAuth.instance.currentUser!.reload();
-    await FirestoreRepository.setUser(user!);
+
+    try {
+      await FirebaseAuth.instance.currentUser!.reload();
+      await FirestoreRepository.setUser(user!);
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(
+          e.message ?? 'Couldn\'t reload user, please try again later');
+    }
   }
 }

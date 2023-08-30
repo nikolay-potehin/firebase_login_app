@@ -13,11 +13,12 @@ class Utils {
       ..showSnackBar(snackBar);
   }
 
-  static Future<bool?> showExitWarning(BuildContext context) async =>
+  static Future<bool?> showWarning(
+          BuildContext context, String warning) async =>
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Do you want to exit app?'),
+          title: Text(warning),
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.pop(context, false),

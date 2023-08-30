@@ -17,7 +17,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final shouldPop = await Utils.showExitWarning(context);
+        final shouldPop = await Utils.showWarning(
+          context,
+          'Do you want to exit app?',
+        );
 
         return shouldPop ?? false;
       },

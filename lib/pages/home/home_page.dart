@@ -1,24 +1,45 @@
+import 'package:firebase_login_app/models/inbox_model.dart';
+import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/account/account_page.dart';
 import 'package:firebase_login_app/pages/home/inbox/inbox_page.dart';
-import 'package:firebase_login_app/pages/home/people/people_page.dart';
+import 'package:firebase_login_app/pages/home/people/users_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => InboxModel(), lazy: false),
+        ChangeNotifierProvider(create: (_) => UsersModel(), lazy: false),
+      ],
+      child: const _HomeView(),
+    );
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeView extends StatefulWidget {
+  const _HomeView();
+
+  @override
+  State<_HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<_HomeView> {
   int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final shouldPop = await Utils.showExitWarning(context);
+        final shouldPop = await Utils.showWarning(
+          context,
+          'Do you want to exit app?',
+        );
 
         return shouldPop ?? false;
       },
@@ -56,6 +77,6 @@ const _bottomNavbarItems = [
 
 const _pages = [
   InboxPage(),
-  PeoplePage(),
+  UsersPage(),
   AccountPage(),
 ];
