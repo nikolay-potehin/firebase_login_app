@@ -1,5 +1,6 @@
 import 'package:firebase_login_app/components/my_text_form_field.dart';
 import 'package:firebase_login_app/models/form_validator.dart';
+import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/authentication/email_verification/email_verification_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -82,22 +83,16 @@ class _RegisterFormState extends State<RegisterForm> {
     final isValidationPassed = _formKey.currentState?.validate() ?? false;
 
     if (isValidationPassed) {
-      showDialog(
-          barrierDismissible: false,
-          context: Scaffold.of(context).context,
-          builder: (context) => const Center(
-                child: CircularProgressIndicator(),
-              ));
-
-      final success = await UserRepository.register(
-        email: _emailController.text,
-        password: _passwordController.text,
-        displayName: _usernameController.text,
+      final success = await Utils.showLoading(
+        context,
+        UserRepository.register(
+          email: _emailController.text,
+          password: _passwordController.text,
+          displayName: _usernameController.text,
+        ),
       );
 
-      Navigator.of(context).popUntil((route) => route.isFirst);
-
-      if (success) {
+      if (success && mounted) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => const EmailVerificationPage(),
         ));

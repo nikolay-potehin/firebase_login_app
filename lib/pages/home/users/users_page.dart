@@ -1,5 +1,5 @@
 import 'package:firebase_login_app/models/users_model.dart';
-import 'package:firebase_login_app/pages/home/people/user_tile.dart';
+import 'package:firebase_login_app/pages/home/users/user_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

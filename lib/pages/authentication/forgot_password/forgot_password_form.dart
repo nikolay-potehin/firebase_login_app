@@ -48,21 +48,17 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   Future resetPassword() async {
     if (!formKey.currentState!.validate()) return;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
+    final email = emailController.text.trim();
+
+    final success = await Utils.showLoading(
+      context,
+      UserRepository.sendPasswordResetEmail(email),
     );
 
-    final email = emailController.text.trim();
-    final successful = await UserRepository.sendPasswordResetEmail(email);
-
-    if (successful) {
+    if (success && mounted) {
       Utils.showSnackBar(
           'Reset password email has been send to "$email" successfuly');
 
-      Navigator.of(context).popUntil((route) => route.isFirst);
-    } else {
       Navigator.of(context).pop();
     }
   }

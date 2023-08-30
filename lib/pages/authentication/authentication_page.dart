@@ -19,7 +19,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       onWillPop: () async {
         final shouldPop = await Utils.showWarning(
           context,
-          'Do you want to exit app?',
+          title: 'Do you want to exit app?',
         );
 
         return shouldPop ?? false;

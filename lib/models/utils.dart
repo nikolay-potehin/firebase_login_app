@@ -1,5 +1,3 @@
-import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
-import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -14,11 +12,17 @@ class Utils {
   }
 
   static Future<bool?> showWarning(
-          BuildContext context, String warning) async =>
+    BuildContext context, {
+    required String title,
+    String? content,
+    bool barrierDismissible = true,
+  }) async =>
       showDialog(
         context: context,
+        barrierDismissible: barrierDismissible,
         builder: (context) => AlertDialog(
-          title: Text(warning),
+          title: Text(title),
+          content: content == null ? null : Text(content),
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.pop(context, false),
@@ -32,35 +36,22 @@ class Utils {
         ),
       );
 
-  static void showLogoutWarning(BuildContext context,
-      {String? title, String? message}) {
+  static Future<T> showLoading<T>(
+    BuildContext context,
+    Future<T> future,
+  ) async {
+    context = Scaffold.of(context).context;
+
     showDialog(
-      barrierDismissible: false,
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title ?? 'Log out'),
-          content: Text(message ?? 'You sure you want to log out?'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('No'),
-            ),
-            TextButton(
-              onPressed: () {
-                UserRepository.logout();
-                Navigator.of(context).popUntil((route) => route.isFirst);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (_) => const AuthenticationPage(),
-                ));
-              },
-              child: const Text('Yes'),
-            ),
-          ],
-        );
-      },
+      barrierDismissible: false,
+      builder: (_) => const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
+
+    await future;
+    if (context.mounted) Navigator.of(context).pop();
+    return future;
   }
 }

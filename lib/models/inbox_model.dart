@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class InboxModel extends ChangeNotifier {
   late final Stream<QuerySnapshot<Map<String, dynamic>>> _stream;
+  late final StreamSubscription _streamSubscription;
   QuerySnapshot<Map<String, dynamic>>? receivedMessages;
 
   InboxModel() {
@@ -13,13 +14,16 @@ class InboxModel extends ChangeNotifier {
         .collection('users')
         .doc(UserRepository.user!.email)
         .collection('messages')
+        .orderBy('sendAtTime', descending: true)
         .snapshots();
 
-    _stream.listen((snapshot) {
+    _streamSubscription = _stream.listen((snapshot) {
       receivedMessages = snapshot;
       notifyListeners();
     });
   }
+
+  void cancel() => _streamSubscription.cancel();
 
   void deleteAllMessages() async {
     // TODO: change to bacth/transaction

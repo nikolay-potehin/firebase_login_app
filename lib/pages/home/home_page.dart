@@ -3,7 +3,7 @@ import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/account/account_page.dart';
 import 'package:firebase_login_app/pages/home/inbox/inbox_page.dart';
-import 'package:firebase_login_app/pages/home/people/users_page.dart';
+import 'package:firebase_login_app/pages/home/users/users_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +38,7 @@ class _HomeViewState extends State<_HomeView> {
       onWillPop: () async {
         final shouldPop = await Utils.showWarning(
           context,
-          'Do you want to exit app?',
+          title: 'Do you want to exit app?',
         );
 
         return shouldPop ?? false;

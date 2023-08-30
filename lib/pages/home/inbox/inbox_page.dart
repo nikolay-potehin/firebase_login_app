@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/pages/home/inbox/message_tile.dart';
 import 'package:flutter/material.dart';
@@ -24,17 +23,16 @@ class InboxPage extends StatelessWidget {
       body: Center(
         child: Consumer<InboxModel>(
           builder: (context, model, _) {
-            final messages = model.receivedMessages;
-            messages?.docs.sort((b, a) => (a.get('sendAtTime') as Timestamp)
-                .compareTo(b.get('sendAtTime') as Timestamp));
+            final length = model.receivedMessages?.size;
+            final messages = model.receivedMessages?.docs;
 
             return messages == null
                 ? const CircularProgressIndicator()
                 : ListView.builder(
                     padding: const EdgeInsets.all(20),
-                    itemCount: model.receivedMessages!.size,
+                    itemCount: length,
                     itemBuilder: (context, index) {
-                      final doc = model.receivedMessages!.docs[index];
+                      final doc = messages[index];
 
                       return MessageTile(doc: doc);
                     },

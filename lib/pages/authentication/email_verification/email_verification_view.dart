@@ -1,4 +1,5 @@
 import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -29,17 +30,31 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             ),
             const SizedBox(height: 20),
             FilledButton(
-              onPressed: () => Utils.showLogoutWarning(
-                context,
-                title: 'Cancel & log out',
-                message:
-                    'You sure you want to cancel email verification & log out?',
-              ),
+              onPressed: () async {
+                final shouldLogout = await Utils.showWarning(
+                      context,
+                      title: 'Cancel & log out',
+                      content:
+                          'You sure you want to cancel email verification & log out?',
+                      barrierDismissible: false,
+                    ) ??
+                    false;
+
+                if (shouldLogout) logout();
+              },
               child: const Text('CANCEL'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void logout() {
+    UserRepository.logout();
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (_) => const AuthenticationPage(),
+    ));
   }
 }
