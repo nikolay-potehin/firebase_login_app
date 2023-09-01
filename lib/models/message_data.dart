@@ -6,7 +6,7 @@ class MessageData {
     required this.toEmail,
     required this.title,
     required this.content,
-    this.isUnread = true,
+    required this.isUnread,
     Timestamp? sendAtTime,
   }) : sendAtTime = sendAtTime ?? Timestamp.now();
 
@@ -18,17 +18,18 @@ class MessageData {
   final bool isUnread;
 
   factory MessageData.fromDocument(
-          DocumentSnapshot<Map<String, dynamic>> snapshot) =>
-      MessageData.fromJson(snapshot.data()!);
+      DocumentSnapshot<Map<String, dynamic>> document) {
+    final json = document.data()!;
 
-  factory MessageData.fromJson(Map<String, dynamic> json) => MessageData(
-        fromEmail: json['fromEmail'],
-        toEmail: json['toEmail'],
-        title: json['title'],
-        content: json['content'],
-        sendAtTime: json['sendAtTime'],
-        isUnread: json['isUnread'] ?? false,
-      );
+    return MessageData(
+      fromEmail: json['fromEmail'],
+      toEmail: json['toEmail'],
+      title: json['title'],
+      content: json['content'],
+      sendAtTime: json['sendAtTime'],
+      isUnread: json['isUnread'] ?? false,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'fromEmail': fromEmail,

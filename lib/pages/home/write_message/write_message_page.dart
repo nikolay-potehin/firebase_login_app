@@ -89,6 +89,7 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
         toEmail: toEmail,
         title: titleController.text.trim(),
         content: contentController.text.trim(),
+        isUnread: true,
       ));
 
       final success = await Utils.showLoading(context, future);

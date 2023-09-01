@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class UsersModel extends ChangeNotifier {
@@ -8,6 +9,11 @@ class UsersModel extends ChangeNotifier {
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>
       _streamSubscription;
   QuerySnapshot<Map<String, dynamic>>? users;
+
+  late final Stream<DocumentSnapshot<Map<String, dynamic>>> _currentUserStream;
+  late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>
+      _currentUserStreamSubscription;
+  DocumentSnapshot<Map<String, dynamic>>? currentUser;
 
   UsersModel() {
     _stream = FirebaseFirestore.instance
@@ -19,7 +25,20 @@ class UsersModel extends ChangeNotifier {
       users = snapshot;
       notifyListeners();
     });
+
+    _currentUserStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(UserRepository.user!.email)
+        .snapshots();
+
+    _currentUserStreamSubscription = _currentUserStream.listen((snapshot) {
+      currentUser = snapshot;
+      notifyListeners();
+    });
   }
 
-  void cancel() => _streamSubscription.cancel();
+  void cancel() {
+    _streamSubscription.cancel();
+    _currentUserStreamSubscription.cancel();
+  }
 }

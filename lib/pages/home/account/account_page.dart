@@ -1,7 +1,9 @@
 import 'package:firebase_login_app/models/inbox_model.dart';
+import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
+import 'package:firebase_login_app/pages/home/account/user_avatar.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
@@ -17,67 +19,81 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
-    final user = UserRepository.user;
-
     return Scaffold(
       appBar: AppBar(title: const Text('Account')),
-      body: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              const Text("You're logged in", style: TextStyle(fontSize: 20)),
-              if (user?.displayName != null) ...[
-                const SizedBox(height: 30),
-                Text(
-                  user!.displayName!,
-                  style: const TextStyle(fontSize: 24),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-              const SizedBox(height: 10),
-              Text(
-                user?.email ?? '-',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: myPrimarySwatch,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const Spacer(),
-              FilledButton(
-                onPressed: () async {
-                  final shouldLogout = await Utils.showWarning(
-                        context,
-                        title: 'Log out',
-                        content: 'You sure you want to log out?',
-                        barrierDismissible: false,
-                      ) ??
-                      false;
-
-                  if (shouldLogout && mounted) logout(context);
-                },
-                child: const Text('LOG OUT'),
-              ),
-            ],
-          ),
-        ),
+      body: const Center(
+        child: _AccountPageBody(),
       ),
     );
   }
+}
 
-  void logout(BuildContext context) {
-    context.read<UsersModel>().cancel();
-    context.read<InboxModel>().cancel();
+class _AccountPageBody extends StatelessWidget {
+  const _AccountPageBody();
 
-    UserRepository.logout();
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UsersModel>(
+      builder: (context, model, _) {
+        if (model.currentUser == null) {
+          return const CircularProgressIndicator();
+        } else {
+          final user = UserData.fromDocument(model.currentUser!);
 
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (_) => const AuthenticationPage(),
-    ));
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const UserAvatar(),
+                const SizedBox(height: 30),
+                Text(
+                  user.displayName,
+                  style: const TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  user.email,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: myPrimarySwatch,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Expanded(child: SizedBox()),
+                FilledButton(
+                  onPressed: () async {
+                    final shouldLogout = await Utils.showWarning(
+                          context,
+                          title: 'Log out',
+                          content: 'You sure you want to log out?',
+                          barrierDismissible: false,
+                        ) ??
+                        false;
+
+                    if (shouldLogout && context.mounted) _logout(context);
+                  },
+                  child: const Text('LOG OUT'),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
   }
+}
+
+void _logout(BuildContext context) {
+  context.read<UsersModel>().cancel();
+  context.read<InboxModel>().cancel();
+
+  UserRepository.logout();
+
+  Navigator.of(context).popUntil((route) => route.isFirst);
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
+    builder: (_) => const AuthenticationPage(),
+  ));
 }
