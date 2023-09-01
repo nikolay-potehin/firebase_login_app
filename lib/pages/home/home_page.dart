@@ -1,17 +1,34 @@
+import 'package:firebase_login_app/models/inbox_model.dart';
+import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/account/account_page.dart';
 import 'package:firebase_login_app/pages/home/inbox/inbox_page.dart';
 import 'package:firebase_login_app/pages/home/users/users_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
-  State<HomePage> createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => InboxModel()),
+        ChangeNotifierProvider(create: (_) => UsersModel()),
+      ],
+      child: const _HomePageView(),
+    );
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageView extends StatefulWidget {
+  const _HomePageView();
+
+  @override
+  State<_HomePageView> createState() => _HomePageViewState();
+}
+
+class _HomePageViewState extends State<_HomePageView> {
   int currentIndex = 0;
 
   @override

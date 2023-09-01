@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/utils.dart';
 
-class MessagingModel {
-  const MessagingModel();
-
-  Future<bool> sendMessage(MessageData messageData) async {
+class MessagingRepository {
+  static Future<bool> sendMessage(MessageData messageData) async {
     final recipientExists = await FirebaseFirestore.instance
             .collection('users')
             .get()
