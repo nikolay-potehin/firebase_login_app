@@ -47,7 +47,6 @@ class _HomePageViewState extends State<_HomePageView> {
         bottomNavigationBar: Consumer<InboxModel>(
           builder: (context, inbox, _) {
             final count = inbox.countUnreadMessages();
-            print('REBUILT');
 
             return BottomNavigationBar(
               currentIndex: currentIndex,

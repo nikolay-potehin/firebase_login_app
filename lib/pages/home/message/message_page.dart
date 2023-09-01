@@ -28,7 +28,6 @@ class _MessagePageState extends State<MessagePage> {
   void initState() {
     super.initState();
     widget.messageDoc.reference.update({'isUnread': false});
-    print('MESSAGE IS READ NOW');
   }
 
   @override

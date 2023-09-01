@@ -33,29 +33,22 @@ class MessageTile extends StatelessWidget {
           sendAtTime.toTimeString(),
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: isUnread ? const _UnreadBadge() : null,
+        trailing: isUnread ? const _UnreadChip() : null,
       ),
     );
   }
 }
 
-class _UnreadBadge extends StatelessWidget {
-  const _UnreadBadge();
+class _UnreadChip extends StatelessWidget {
+  const _UnreadChip();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        color: Colors.red,
-      ),
-      child: const Text(
-        'New',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
+    return const Chip(
+      backgroundColor: Colors.red,
+      elevation: 2,
+      label: Text('New'),
+      labelStyle: TextStyle(color: Colors.white),
     );
   }
 }

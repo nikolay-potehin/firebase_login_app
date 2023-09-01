@@ -24,7 +24,12 @@ class UserTile extends StatelessWidget {
       child: ListTile(
         enabled: !isCurrentUser,
         onTap: () => Utils.showSnackBar('This is $displayName'),
-        title: Text(isCurrentUser ? '(You) $displayName' : displayName),
+        title: Wrap(
+          alignment: WrapAlignment.start,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 10,
+          children: [Text(isCurrentUser ? '(You) $displayName' : displayName)],
+        ),
         subtitle: Text(email),
         leading: const CircleAvatar(),
         trailing: IconButton(
