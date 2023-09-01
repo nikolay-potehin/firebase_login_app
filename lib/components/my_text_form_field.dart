@@ -11,7 +11,10 @@ class MyTextFormField extends StatefulWidget {
     this.hintText = '',
     this.obscureText = false,
     this.hideButton = false,
+    this.enabled = true,
     this.prefixIcon,
+    this.inputFormatters,
+    this.maxLines = 1,
   });
 
   final TextEditingController controller;
@@ -20,6 +23,9 @@ class MyTextFormField extends StatefulWidget {
   final Widget? prefixIcon;
   final bool obscureText;
   final bool hideButton;
+  final bool enabled;
+  final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   State<MyTextFormField> createState() => _MyTextFormFieldState();
@@ -37,9 +43,14 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       controller: widget.controller,
       validator: widget.validator,
       obscureText: obscureText,
+      inputFormatters: widget.inputFormatters ??
+          [FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))],
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      maxLines: widget.maxLines,
       decoration: InputDecoration(
         filled: false,
         hintText: widget.hintText,
@@ -61,8 +72,6 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
               )
             : null,
       ),
-      inputFormatters: [FilteringTextInputFormatter.deny(RegExp('[/\\ ]'))],
-      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 }

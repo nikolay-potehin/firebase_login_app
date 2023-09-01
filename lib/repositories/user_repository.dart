@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_login_app/models/utils.dart';
-import 'package:firebase_login_app/repositories/firestore_repository.dart';
 
 class UserRepository {
   static User? get user => FirebaseAuth.instance.currentUser;
@@ -71,10 +71,19 @@ class UserRepository {
 
     try {
       await FirebaseAuth.instance.currentUser!.reload();
-      await FirestoreRepository.setUser(user!);
+      await _setUser();
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(
           e.message ?? 'Couldn\'t reload user, please try again later');
     }
+  }
+
+  static Future<void> _setUser() async {
+    await FirebaseFirestore.instance.collection('users').doc(user!.email).set({
+      'email': user!.email,
+      'displayName': user!.displayName,
+      'lastSignInTime': user!.metadata.lastSignInTime,
+      'creationTime': user!.metadata.creationTime,
+    });
   }
 }

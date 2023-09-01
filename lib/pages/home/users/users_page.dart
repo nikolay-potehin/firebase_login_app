@@ -21,10 +21,7 @@ class UsersPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final doc = model.users!.docs[index];
 
-                      return UserTile(
-                        doc: doc,
-                        onTap: () => model.sendMessage(doc.get('email')),
-                      );
+                      return UserTile(userDoc: doc);
                     },
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 4),

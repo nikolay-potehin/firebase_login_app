@@ -48,7 +48,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   Future resetPassword() async {
     if (!formKey.currentState!.validate()) return;
 
-    final email = emailController.text.trim();
+    final email = emailController.text;
 
     final success = await Utils.showLoading(
       context,

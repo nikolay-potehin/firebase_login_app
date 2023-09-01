@@ -39,7 +39,7 @@ class InboxPage extends StatelessWidget {
                 final doc = messages[index];
 
                 return MessageTile(
-                  doc: doc,
+                  emailDoc: doc,
                   onTap: () => _openMessage(context, doc),
                 );
               },
@@ -47,6 +47,7 @@ class InboxPage extends StatelessWidget {
           },
         ),
       ),
+      floatingActionButton: const _FloatingActionButton(),
     );
   }
 
@@ -71,5 +72,21 @@ class InboxPage extends StatelessWidget {
     if (shouldDelete && context.mounted) {
       context.read<InboxModel>().deleteAllMessages();
     }
+  }
+}
+
+class _FloatingActionButton extends StatelessWidget {
+  const _FloatingActionButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      foregroundColor: Colors.white,
+      onPressed: () {},
+      // onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+      //   builder: (context) => const WriteMessagePage(),
+      // )),
+      child: const Icon(Icons.outgoing_mail, size: 30),
+    );
   }
 }

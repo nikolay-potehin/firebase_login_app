@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/pages/home/write_message/write_message_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +8,11 @@ import 'package:flutter/material.dart';
 class UserTile extends StatelessWidget {
   UserTile({
     super.key,
-    required this.doc,
-    required this.onTap,
-  })  : email = doc.get('email') as String,
-        displayName = doc.get('displayName') as String;
+    required this.userDoc,
+  })  : email = userDoc.get('email') as String,
+        displayName = userDoc.get('displayName') as String;
 
-  final QueryDocumentSnapshot<Map<String, dynamic>> doc;
-  final VoidCallback onTap;
+  final QueryDocumentSnapshot<Map<String, dynamic>> userDoc;
   final String displayName;
   final String email;
 
@@ -30,7 +29,11 @@ class UserTile extends StatelessWidget {
         leading: const CircleAvatar(),
         trailing: IconButton(
           constraints: const BoxConstraints(),
-          onPressed: isCurrentUser ? null : onTap,
+          onPressed: isCurrentUser
+              ? null
+              : () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => WriteMessagePage(userDoc: userDoc),
+                  )),
           icon: Icon(
             Icons.email,
             color: isCurrentUser ? myPrimarySwatch.shade200 : myPrimarySwatch,
