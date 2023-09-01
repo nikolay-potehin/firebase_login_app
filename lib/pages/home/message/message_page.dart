@@ -4,20 +4,32 @@ import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
 
-class MessagePage extends StatelessWidget {
+class MessagePage extends StatefulWidget {
   MessagePage(
-    this.doc, {
+    this.messageDoc, {
     super.key,
-  })  : title = doc.get('title'),
-        content = doc.get('content'),
-        fromEmail = doc.get('fromEmail'),
-        sendAtTime = doc.get('sendAtTime');
+  })  : title = messageDoc.get('title'),
+        content = messageDoc.get('content'),
+        fromEmail = messageDoc.get('fromEmail'),
+        sendAtTime = messageDoc.get('sendAtTime');
 
-  final DocumentSnapshot<Map<String, dynamic>> doc;
+  final DocumentSnapshot<Map<String, dynamic>> messageDoc;
   final String title;
   final String content;
   final String fromEmail;
   final Timestamp sendAtTime;
+
+  @override
+  State<MessagePage> createState() => _MessagePageState();
+}
+
+class _MessagePageState extends State<MessagePage> {
+  @override
+  void initState() {
+    super.initState();
+    widget.messageDoc.reference.update({'isUnread': false});
+    print('MESSAGE IS READ NOW');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +49,10 @@ class MessagePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontSize: 22)),
+            Text(widget.title, style: const TextStyle(fontSize: 22)),
             const SizedBox(height: 4),
             Text(
-              'from: $fromEmail',
+              'from: ${widget.fromEmail}',
               style: TextStyle(
                 fontSize: 16,
                 color: myPrimarySwatch,
@@ -48,10 +60,10 @@ class MessagePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Text(content, style: const TextStyle(fontSize: 18)),
+            Text(widget.content, style: const TextStyle(fontSize: 18)),
             const SizedBox(height: 40),
             Text(
-              sendAtTime.toTimeString(),
+              widget.sendAtTime.toTimeString(),
               style: const TextStyle(fontSize: 18),
             ),
           ],
@@ -68,7 +80,7 @@ class MessagePage extends StatelessWidget {
         false;
 
     if (shouldDelete) {
-      await doc.reference.delete();
+      await widget.messageDoc.reference.delete();
       if (context.mounted) Navigator.of(context).pop();
     }
   }

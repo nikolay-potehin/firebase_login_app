@@ -44,35 +44,44 @@ class _HomePageViewState extends State<_HomePageView> {
       },
       child: Scaffold(
         body: _pages[currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          items: _bottomNavbarItems,
-          showUnselectedLabels: false,
-          showSelectedLabels: false,
-          onTap: (value) => setState(() => currentIndex = value),
+        bottomNavigationBar: Consumer<InboxModel>(
+          builder: (context, inbox, _) {
+            final count = inbox.countUnreadMessages();
+            print('REBUILT');
+
+            return BottomNavigationBar(
+              currentIndex: currentIndex,
+              showUnselectedLabels: false,
+              showSelectedLabels: false,
+              onTap: (value) => setState(() => currentIndex = value),
+              items: [
+                BottomNavigationBarItem(
+                  icon: Badge.count(
+                    isLabelVisible: count != 0,
+                    count: count,
+                    child: Icon(
+                        currentIndex == 0 ? Icons.email : Icons.email_outlined),
+                  ),
+                  label: '',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.people_alt_outlined),
+                  activeIcon: Icon(Icons.people_alt),
+                  label: '',
+                ),
+                const BottomNavigationBarItem(
+                  icon: Icon(Icons.person_outline),
+                  activeIcon: Icon(Icons.person),
+                  label: '',
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 }
-
-const _bottomNavbarItems = [
-  BottomNavigationBarItem(
-    icon: Icon(Icons.email_outlined),
-    activeIcon: Icon(Icons.email),
-    label: '',
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.people_alt_outlined),
-    activeIcon: Icon(Icons.people_alt),
-    label: '',
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.person_outline),
-    activeIcon: Icon(Icons.person),
-    label: '',
-  ),
-];
 
 const _pages = [
   InboxPage(),

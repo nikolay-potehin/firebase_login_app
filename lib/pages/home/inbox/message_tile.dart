@@ -11,7 +11,8 @@ class MessageTile extends StatelessWidget {
         content = emailDoc.get('content') as String,
         fromEmail = emailDoc.get('fromEmail') as String,
         toEmail = emailDoc.get('toEmail') as String,
-        sendAtTime = emailDoc.get('sendAtTime') as Timestamp;
+        sendAtTime = emailDoc.get('sendAtTime') as Timestamp,
+        isUnread = emailDoc.data()['isUnread'] ?? false;
 
   final QueryDocumentSnapshot<Map<String, dynamic>> emailDoc;
   final VoidCallback onTap;
@@ -20,6 +21,7 @@ class MessageTile extends StatelessWidget {
   final String fromEmail;
   final String toEmail;
   final Timestamp sendAtTime;
+  final bool isUnread;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,28 @@ class MessageTile extends StatelessWidget {
           sendAtTime.toTimeString(),
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: Text(fromEmail),
+        trailing: isUnread ? const _UnreadBadge() : null,
+      ),
+    );
+  }
+}
+
+class _UnreadBadge extends StatelessWidget {
+  const _UnreadBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: Colors.red,
+      ),
+      child: const Text(
+        'New',
+        style: TextStyle(
+          color: Colors.white,
+        ),
       ),
     );
   }

@@ -25,8 +25,18 @@ class InboxModel extends ChangeNotifier {
 
   void cancel() => _streamSubscription.cancel();
 
+  int countUnreadMessages() {
+    if (receivedMessages == null) return 0;
+
+    final unreads = receivedMessages!.docs
+        .map((doc) => (doc.data()['isUnread'] ?? false) as bool);
+    final count = unreads.fold(
+        0, (previousValue, unread) => previousValue + (unread ? 1 : 0));
+
+    return count;
+  }
+
   void deleteAllMessages() async {
-    // TODO: change to bacth/transaction
     final batch = FirebaseFirestore.instance.batch();
 
     final messages = await FirebaseFirestore.instance
