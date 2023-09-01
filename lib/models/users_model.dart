@@ -37,6 +37,11 @@ class UsersModel extends ChangeNotifier {
     });
   }
 
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getUserByEmail(
+      String email) {
+    return FirebaseFirestore.instance.collection('users').doc(email).get();
+  }
+
   void cancel() {
     _streamSubscription.cancel();
     _currentUserStreamSubscription.cancel();

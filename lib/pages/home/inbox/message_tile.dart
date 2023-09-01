@@ -20,10 +20,16 @@ class MessageTile extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: onTap,
-        title: Text(message.title),
-        subtitle: Text(
-          message.sendAtTime.toTimeString(),
-          overflow: TextOverflow.ellipsis,
+        title: Text(message.fromEmail, overflow: TextOverflow.ellipsis),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(message.title, overflow: TextOverflow.ellipsis),
+            Text(
+              message.sendAtTime.toTimeString(),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
         trailing: message.isUnread ? const _UnreadChip() : null,
       ),
