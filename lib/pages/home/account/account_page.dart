@@ -74,22 +74,24 @@ class _AccountPageBody extends StatelessWidget {
 
   void _editAvatar(BuildContext context, UserData user) {
     final avatars = <Widget>[];
-    UserAvatars.avatars.forEach((name, avatarData) => avatars.add(
-          FloatingActionButton(
-            onPressed: () {
-              if (context.mounted) Navigator.of(context).pop();
+    for (var entry in UserAvatars.avatars) {
+      avatars.add(
+        FloatingActionButton(
+          onPressed: () {
+            if (context.mounted) Navigator.of(context).pop();
 
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(user.email)
-                  .update({
-                'avatarName': name,
-              });
-            },
-            backgroundColor: Colors.white,
-            child: UserAvatar(avatarData, radius: 24),
-          ),
-        ));
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.email)
+                .update({
+              'avatarName': entry.key,
+            });
+          },
+          backgroundColor: Colors.white,
+          child: UserAvatar(entry.value, radius: 24),
+        ),
+      );
+    }
 
     showDialog(
       context: context,
