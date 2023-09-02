@@ -2,25 +2,22 @@ import 'package:firebase_login_app/components/user_avatar.dart';
 import 'package:firebase_login_app/extensions/timestamp_extensions.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
-import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
-class UserInfoCard extends StatefulWidget {
-  const UserInfoCard({
+class MessageInfoCard extends StatefulWidget {
+  const MessageInfoCard({
     super.key,
-    required this.fromUser,
     required this.message,
   });
 
-  final UserData fromUser;
   final MessageData message;
 
   @override
-  State<UserInfoCard> createState() => _UserInfoCardState();
+  State<MessageInfoCard> createState() => _MessageInfoCardState();
 }
 
-class _UserInfoCardState extends State<UserInfoCard> {
+class _MessageInfoCardState extends State<MessageInfoCard> {
   bool isExpanded = false;
 
   @override
@@ -31,14 +28,14 @@ class _UserInfoCardState extends State<UserInfoCard> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            UserAvatar(UserAvatars.fromUserData(widget.fromUser)),
+            UserAvatar(UserAvatars.fromUserData(widget.message.fromUser)),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.fromUser.displayName,
+                    widget.message.fromUser.displayName,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 18),
                   ),
@@ -69,8 +66,8 @@ class _UserInfoCardState extends State<UserInfoCard> {
               children: [
                 _InfoRow(
                   'From:',
-                  widget.fromUser.displayName,
-                  widget.fromUser.email,
+                  widget.message.fromUser.displayName,
+                  widget.message.fromUser.email,
                 ),
                 const SizedBox(height: 8),
                 _InfoRow(

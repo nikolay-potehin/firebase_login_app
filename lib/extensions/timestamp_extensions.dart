@@ -12,9 +12,12 @@ extension TimestampExtensions on Timestamp {
   String toShortTimeString() {
     final dateTime = toDate();
     if (dateTime.day == DateTime.now().day) {
-      return '${dateTime.hour}:${dateTime.minute}';
+      final hour = dateTime.hour.toString().padLeft(2, '0');
+      final minute = dateTime.minute.toString().padLeft(2, '0');
+
+      return '$hour:$minute';
     }
-    return '${dateTime.day} ${_months[dateTime.month]}';
+    return '${dateTime.day} ${_months[dateTime.month]}.';
   }
 
   static final List<String> _months = [

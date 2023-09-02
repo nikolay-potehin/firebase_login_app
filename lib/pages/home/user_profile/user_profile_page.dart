@@ -27,7 +27,7 @@ class UserProfilePage extends StatelessWidget {
                 iconData: Icons.mail,
                 onButtonPressed: () =>
                     Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => WriteMessagePage(userData: user),
+                  builder: (context) => WriteMessagePage(toUser: user),
                 )),
               ),
               const SizedBox(height: 30),

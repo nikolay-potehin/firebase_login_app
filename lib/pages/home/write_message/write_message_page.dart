@@ -1,6 +1,7 @@
 import 'package:firebase_login_app/components/my_text_form_field.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_data.dart';
+import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/pages/home/write_message/write_message_form.dart';
 import 'package:firebase_login_app/repositories/messaging_repository.dart';
 import 'package:firebase_login_app/models/utils.dart';
@@ -10,10 +11,10 @@ import 'package:flutter/material.dart';
 class WriteMessagePage extends StatefulWidget {
   const WriteMessagePage({
     super.key,
-    required this.userData,
+    required this.toUser,
   });
 
-  final UserData userData;
+  final UserData toUser;
 
   @override
   State<WriteMessagePage> createState() => _WriteMessagePageState();
@@ -38,9 +39,7 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
   @override
   Widget build(BuildContext context) {
     final fromEmail = UserRepository.user!.email!;
-    final fromDisplayName = UserRepository.user!.displayName!;
-    final toEmail = widget.userData.email;
-    final toDisplayName = widget.userData.displayName;
+    final toUser = widget.toUser;
 
     return Scaffold(
       appBar: AppBar(title: const Text('New Message')),
@@ -56,7 +55,7 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
             ),
             MyTextFormField(
               controller: fromEmailController,
-              hintText: 'To: $toDisplayName ($toEmail)',
+              hintText: 'To: ${toUser.displayName} (${toUser.email})',
               enabled: false,
             ),
             WriteMessageForm(
@@ -68,27 +67,31 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _sendMessage(
-            context,
-            MessageData(
-              fromEmail: fromEmail,
-              fromUsername: fromDisplayName,
-              toEmail: toEmail,
-              title: titleController.text.trim(),
-              content: contentController.text.trim(),
-              isUnread: true,
-            )),
+        onPressed: _trySendMessage,
         child: const Icon(Icons.send_rounded, color: Colors.white),
       ),
     );
   }
 
-  _sendMessage(BuildContext context, MessageData messageData) async {
+  Future<bool> _sendMessage() async {
+    final currentUserDoc = await UsersModel.getUserByEmail(
+      UserRepository.user!.email!,
+    );
+
+    final message = MessageData(
+      fromUser: UserData.fromDocument(currentUserDoc),
+      toEmail: widget.toUser.email,
+      title: titleController.text.trim(),
+      content: contentController.text.trim(),
+      isUnread: true,
+    );
+
+    return MessagingRepository.sendMessage(message);
+  }
+
+  void _trySendMessage() async {
     if (_formKey.currentState?.validate() ?? false) {
-      final success = await Utils.showLoading(
-        context,
-        MessagingRepository.sendMessage(messageData),
-      );
+      final success = await Utils.showLoading(context, _sendMessage());
 
       if (success && mounted) {
         Navigator.of(context).pop();

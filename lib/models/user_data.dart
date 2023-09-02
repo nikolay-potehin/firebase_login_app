@@ -16,17 +16,16 @@ class UserData {
   final Timestamp lastSignInTime;
 
   factory UserData.fromDocument(
-      DocumentSnapshot<Map<String, dynamic>> document) {
-    final json = document.data()!;
+          DocumentSnapshot<Map<String, dynamic>> document) =>
+      UserData.fromJson(document.data()!);
 
-    return UserData(
-      email: json['email'],
-      displayName: json['displayName'],
-      creationTime: json['creationTime'],
-      lastSignInTime: json['lastSignInTime'],
-      avatarName: json['avatarName'],
-    );
-  }
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+        email: json['email'],
+        displayName: json['displayName'],
+        creationTime: json['creationTime'],
+        lastSignInTime: json['lastSignInTime'],
+        avatarName: json['avatarName'],
+      );
 
   Map<String, dynamic> toJson() => {
         'email': email,

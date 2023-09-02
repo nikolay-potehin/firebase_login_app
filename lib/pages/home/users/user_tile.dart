@@ -43,7 +43,7 @@ class UserTile extends StatelessWidget {
               ? null
               : () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => WriteMessagePage(
-                      userData: UserData.fromDocument(userDoc),
+                      toUser: UserData.fromDocument(userDoc),
                     ),
                   )),
           icon: Icon(

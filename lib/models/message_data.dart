@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/models/user_data.dart';
 
 class MessageData {
   MessageData({
-    required this.fromEmail,
-    required this.fromUsername,
+    required this.fromUser,
     required this.toEmail,
     required this.title,
     required this.content,
@@ -11,11 +11,10 @@ class MessageData {
     Timestamp? sendAtTime,
   }) : sendAtTime = sendAtTime ?? Timestamp.now();
 
+  final UserData fromUser;
   final String title;
   final String content;
-  final String fromEmail;
   final String toEmail;
-  final String? fromUsername;
   final Timestamp sendAtTime;
   final bool isUnread;
 
@@ -24,19 +23,17 @@ class MessageData {
     final json = document.data()!;
 
     return MessageData(
-      fromEmail: json['fromEmail'],
+      fromUser: UserData.fromJson(json['fromUser']),
       toEmail: json['toEmail'],
       title: json['title'],
       content: json['content'],
       sendAtTime: json['sendAtTime'],
-      isUnread: json['isUnread'] ?? false,
-      fromUsername: json['fromUsername'],
+      isUnread: json['isUnread'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'fromEmail': fromEmail,
-        'fromUsername': fromUsername,
+        'fromUser': fromUser.toJson(),
         'toEmail': toEmail,
         'title': title,
         'content': content,

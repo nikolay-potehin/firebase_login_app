@@ -17,21 +17,30 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final message = MessageData.fromDocument(messageDoc);
 
-    return ListTile(
+    return InkWell(
       onTap: onTap,
-      title: Text(message.fromUsername ?? message.fromEmail,
-          overflow: TextOverflow.ellipsis),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(message.title, overflow: TextOverflow.ellipsis),
-          Text(
-            message.sendAtTime.toShortTimeString(),
-            overflow: TextOverflow.ellipsis,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+        margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          color: Colors.grey.shade200,
+        ),
+        child: ListTile(
+          title: Row(
+            children: [
+              Text(
+                message.fromUser.displayName,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const Expanded(child: SizedBox()),
+              Text(message.sendAtTime.toShortTimeString()),
+            ],
           ),
-        ],
+          subtitle: Text(message.title, overflow: TextOverflow.ellipsis),
+          trailing: message.isUnread ? const _UnreadChip() : null,
+        ),
       ),
-      trailing: message.isUnread ? const _UnreadChip() : null,
     );
   }
 }

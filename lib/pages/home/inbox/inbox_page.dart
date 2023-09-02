@@ -32,7 +32,7 @@ class InboxPage extends StatelessWidget {
 
             if (messages.isEmpty) return const EmptyInboxWidget();
 
-            return ListView.separated(
+            return ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 10),
               itemCount: length!,
               itemBuilder: (context, index) {
@@ -43,7 +43,6 @@ class InboxPage extends StatelessWidget {
                   onTap: () => _openMessage(context, messageDoc),
                 );
               },
-              separatorBuilder: (context, index) => const Divider(),
             );
           },
         ),
