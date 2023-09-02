@@ -8,9 +8,17 @@ class UserAvatars {
       iconData: Icons.person,
       backgroundColor: myPrimarySwatch.shade300,
     ),
-    'admin': const UserAvatarData(
+    'person_2': UserAvatarData(
+      iconData: Icons.person_2,
+      backgroundColor: Colors.amber.shade300,
+    ),
+    'person_3': UserAvatarData(
+      iconData: Icons.person_3,
+      backgroundColor: Colors.purple.shade300,
+    ),
+    'admin': UserAvatarData(
       iconData: Icons.support_agent_rounded,
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blue.shade300,
     ),
   };
 

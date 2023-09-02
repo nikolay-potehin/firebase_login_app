@@ -1,23 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/components/user_avatar.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
+import 'package:firebase_login_app/pages/home/account/account_info.dart';
 import 'package:firebase_login_app/pages/home/account/editable_user_avatar.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
-import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AccountPage extends StatefulWidget {
+class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
-  @override
-  State<AccountPage> createState() => _AccountPageState();
-}
-
-class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,27 +39,16 @@ class _AccountPageBody extends StatelessWidget {
           final user = UserData.fromDocument(model.currentUser!);
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+            padding: const EdgeInsets.fromLTRB(30, 50, 30, 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                EditableUserAvatar(UserAvatars.fromUserData(user)),
+                EditableUserAvatar(
+                  userAvatar: UserAvatars.fromUserData(user),
+                  onEditPressed: () => _editAvatar(context, user),
+                ),
                 const SizedBox(height: 30),
-                Text(
-                  user.displayName,
-                  style: const TextStyle(fontSize: 24),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  user.email,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: myPrimarySwatch,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                AccountInfo(user: user),
                 const Expanded(child: SizedBox()),
                 FilledButton(
                   onPressed: () async {
@@ -85,16 +71,52 @@ class _AccountPageBody extends StatelessWidget {
       },
     );
   }
-}
 
-void _logout(BuildContext context) {
-  context.read<UsersModel>().cancel();
-  context.read<InboxModel>().cancel();
+  void _editAvatar(BuildContext context, UserData user) {
+    final avatars = <Widget>[];
+    UserAvatars.avatars.forEach((name, avatarData) => avatars.add(
+          FloatingActionButton(
+            onPressed: () {
+              if (context.mounted) Navigator.of(context).pop();
 
-  UserRepository.logout();
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.email)
+                  .update({
+                'avatarName': name,
+              });
+            },
+            backgroundColor: Colors.white,
+            child: UserAvatar(avatarData, radius: 24),
+          ),
+        ));
 
-  Navigator.of(context).popUntil((route) => route.isFirst);
-  Navigator.of(context).pushReplacement(MaterialPageRoute(
-    builder: (_) => const AuthenticationPage(),
-  ));
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Pick Avatar',
+          textAlign: TextAlign.center,
+        ),
+        content: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 20,
+          runSpacing: 20,
+          children: avatars,
+        ),
+      ),
+    );
+  }
+
+  void _logout(BuildContext context) {
+    context.read<UsersModel>().cancel();
+    context.read<InboxModel>().cancel();
+
+    UserRepository.logout();
+
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (_) => const AuthenticationPage(),
+    ));
+  }
 }
