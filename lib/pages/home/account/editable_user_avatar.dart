@@ -2,15 +2,17 @@ import 'package:firebase_login_app/components/user_avatar.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:flutter/material.dart';
 
-class EditableUserAvatar extends StatelessWidget {
-  const EditableUserAvatar({
+class UserAvatarWithButton extends StatelessWidget {
+  const UserAvatarWithButton({
     required this.userAvatar,
-    required this.onEditPressed,
+    required this.iconData,
+    required this.onButtonPressed,
     super.key,
   });
 
   final UserAvatarData userAvatar;
-  final VoidCallback? onEditPressed;
+  final IconData iconData;
+  final VoidCallback? onButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,9 @@ class EditableUserAvatar extends StatelessWidget {
       children: [
         UserAvatar.big(userAvatar),
         FloatingActionButton.small(
-          onPressed: onEditPressed,
+          onPressed: onButtonPressed,
           foregroundColor: Colors.white,
-          child: const Icon(Icons.edit),
+          child: Icon(iconData),
         ),
       ],
     );

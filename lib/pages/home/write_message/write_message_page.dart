@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/components/my_text_form_field.dart';
 import 'package:firebase_login_app/models/message_data.dart';
+import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/pages/home/write_message/write_message_form.dart';
 import 'package:firebase_login_app/repositories/messaging_repository.dart';
 import 'package:firebase_login_app/models/utils.dart';
@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 class WriteMessagePage extends StatefulWidget {
   const WriteMessagePage({
     super.key,
-    required this.userDoc,
+    required this.userData,
   });
 
-  final QueryDocumentSnapshot<Map<String, dynamic>> userDoc;
+  final UserData userData;
 
   @override
   State<WriteMessagePage> createState() => _WriteMessagePageState();
@@ -39,8 +39,8 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
   Widget build(BuildContext context) {
     final fromEmail = UserRepository.user!.email!;
     final fromDisplayName = UserRepository.user!.displayName!;
-    final toEmail = widget.userDoc.get('email');
-    final toDisplayName = widget.userDoc.get('displayName');
+    final toEmail = widget.userData.email;
+    final toDisplayName = widget.userData.displayName;
 
     return Scaffold(
       appBar: AppBar(title: const Text('New Message')),

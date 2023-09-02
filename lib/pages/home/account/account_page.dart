@@ -43,9 +43,10 @@ class _AccountPageBody extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                EditableUserAvatar(
+                UserAvatarWithButton(
                   userAvatar: UserAvatars.fromUserData(user),
-                  onEditPressed: () => _editAvatar(context, user),
+                  iconData: Icons.edit,
+                  onButtonPressed: () => _editAvatar(context, user),
                 ),
                 const SizedBox(height: 30),
                 AccountInfo(user: user),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/components/user_avatar.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:firebase_login_app/models/user_data.dart';
-import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/pages/home/user_profile/user_profile_page.dart';
 import 'package:firebase_login_app/pages/home/write_message/write_message_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:firebase_login_app/theme.dart';
@@ -24,7 +24,9 @@ class UserTile extends StatelessWidget {
     return Card(
       child: ListTile(
         enabled: !isCurrentUser,
-        onTap: () => Utils.showSnackBar('This is ${user.displayName}'),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserProfilePage(user: user),
+        )),
         title: Wrap(
           alignment: WrapAlignment.start,
           crossAxisAlignment: WrapCrossAlignment.center,
@@ -40,7 +42,9 @@ class UserTile extends StatelessWidget {
           onPressed: isCurrentUser
               ? null
               : () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => WriteMessagePage(userDoc: userDoc),
+                    builder: (_) => WriteMessagePage(
+                      userData: UserData.fromDocument(userDoc),
+                    ),
                   )),
           icon: Icon(
             Icons.email,
