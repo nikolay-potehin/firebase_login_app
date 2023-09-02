@@ -6,33 +6,32 @@ import 'package:flutter/material.dart';
 class MessageTile extends StatelessWidget {
   const MessageTile({
     super.key,
-    required this.emailDoc,
+    required this.messageDoc,
     required this.onTap,
   });
 
-  final QueryDocumentSnapshot<Map<String, dynamic>> emailDoc;
+  final QueryDocumentSnapshot<Map<String, dynamic>> messageDoc;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final message = MessageData.fromDocument(emailDoc);
+    final message = MessageData.fromDocument(messageDoc);
 
-    return Card(
-      child: ListTile(
-        onTap: onTap,
-        title: Text(message.fromEmail, overflow: TextOverflow.ellipsis),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(message.title, overflow: TextOverflow.ellipsis),
-            Text(
-              message.sendAtTime.toTimeString(),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-        trailing: message.isUnread ? const _UnreadChip() : null,
+    return ListTile(
+      onTap: onTap,
+      title: Text(message.fromUsername ?? message.fromEmail,
+          overflow: TextOverflow.ellipsis),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(message.title, overflow: TextOverflow.ellipsis),
+          Text(
+            message.sendAtTime.toShortTimeString(),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
+      trailing: message.isUnread ? const _UnreadChip() : null,
     );
   }
 }

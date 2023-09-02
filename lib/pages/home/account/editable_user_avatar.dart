@@ -1,19 +1,21 @@
+import 'package:firebase_login_app/components/user_avatar.dart';
+import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:flutter/material.dart';
 
-class UserAvatar extends StatelessWidget {
-  const UserAvatar({super.key});
+class EditableUserAvatar extends StatelessWidget {
+  const EditableUserAvatar(
+    this.userAvatar, {
+    super.key,
+  });
 
-  final double radius = 60;
+  final UserAvatarData userAvatar;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
-        CircleAvatar(
-          radius: radius,
-          child: Icon(Icons.person, size: radius * 1.2),
-        ),
+        UserAvatar.big(userAvatar),
         FloatingActionButton.small(
           onPressed: () {},
           foregroundColor: Colors.white,

@@ -1,9 +1,10 @@
 import 'package:firebase_login_app/models/inbox_model.dart';
+import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
-import 'package:firebase_login_app/pages/home/account/user_avatar.dart';
+import 'package:firebase_login_app/pages/home/account/editable_user_avatar.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _AccountPageBody extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const UserAvatar(),
+                EditableUserAvatar(UserAvatars.fromUserData(user)),
                 const SizedBox(height: 30),
                 Text(
                   user.displayName,

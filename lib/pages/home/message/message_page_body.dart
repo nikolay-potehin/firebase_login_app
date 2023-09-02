@@ -1,4 +1,3 @@
-import 'package:firebase_login_app/extensions/timestamp_extensions.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/users_model.dart';
@@ -37,11 +36,6 @@ class MessagePageBody extends StatelessWidget {
                     UserInfoCard(fromUser: fromUser, message: message),
                     const SizedBox(height: 20),
                     Text(message.content, style: const TextStyle(fontSize: 18)),
-                    const SizedBox(height: 40),
-                    Text(
-                      message.sendAtTime.toTimeString(),
-                      style: const TextStyle(fontSize: 18),
-                    ),
                   ],
                 );
               }

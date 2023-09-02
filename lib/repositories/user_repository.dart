@@ -14,6 +14,7 @@ class UserRepository {
         email: email,
         password: password,
       );
+      await _updateUser();
       return true;
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(
@@ -33,6 +34,7 @@ class UserRepository {
         password: password,
       );
       user?.updateDisplayName(displayName);
+      _setUser();
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -71,7 +73,7 @@ class UserRepository {
 
     try {
       await FirebaseAuth.instance.currentUser!.reload();
-      await _setUser();
+      await _updateUser();
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(
           e.message ?? 'Couldn\'t reload user, please try again later');
@@ -84,6 +86,15 @@ class UserRepository {
       'displayName': user!.displayName,
       'lastSignInTime': user!.metadata.lastSignInTime,
       'creationTime': user!.metadata.creationTime,
+    });
+  }
+
+  static Future<void> _updateUser() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.email)
+        .update({
+      'lastSignInTime': user!.metadata.lastSignInTime,
     });
   }
 }

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/components/user_avatar.dart';
+import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/write_message/write_message_page.dart';
@@ -32,7 +34,7 @@ class UserTile extends StatelessWidget {
           ],
         ),
         subtitle: Text(user.email),
-        leading: const CircleAvatar(child: Icon(Icons.person)),
+        leading: UserAvatar(UserAvatars.fromUserData(user)),
         trailing: IconButton(
           constraints: const BoxConstraints(),
           onPressed: isCurrentUser

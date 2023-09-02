@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class MessageData {
   MessageData({
     required this.fromEmail,
+    required this.fromUsername,
     required this.toEmail,
     required this.title,
     required this.content,
@@ -14,6 +15,7 @@ class MessageData {
   final String content;
   final String fromEmail;
   final String toEmail;
+  final String? fromUsername;
   final Timestamp sendAtTime;
   final bool isUnread;
 
@@ -28,11 +30,13 @@ class MessageData {
       content: json['content'],
       sendAtTime: json['sendAtTime'],
       isUnread: json['isUnread'] ?? false,
+      fromUsername: json['fromUsername'],
     );
   }
 
   Map<String, dynamic> toJson() => {
         'fromEmail': fromEmail,
+        'fromUsername': fromUsername,
         'toEmail': toEmail,
         'title': title,
         'content': content,

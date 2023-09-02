@@ -25,19 +25,6 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
   final contentController = TextEditingController();
   final fromEmailController = TextEditingController();
   final toEmailController = TextEditingController();
-  late final String fromEmail;
-  late final String fromDisplayName;
-  late final String toEmail;
-  late final String toDisplayName;
-
-  @override
-  void initState() {
-    fromEmail = UserRepository.user!.email!;
-    fromDisplayName = UserRepository.user!.displayName!;
-    toEmail = widget.userDoc.get('email');
-    toDisplayName = widget.userDoc.get('displayName');
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -50,6 +37,11 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
 
   @override
   Widget build(BuildContext context) {
+    final fromEmail = UserRepository.user!.email!;
+    final fromDisplayName = UserRepository.user!.displayName!;
+    final toEmail = widget.userDoc.get('email');
+    final toDisplayName = widget.userDoc.get('displayName');
+
     return Scaffold(
       appBar: AppBar(title: const Text('New Message')),
       body: SingleChildScrollView(
@@ -76,23 +68,28 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _sendMessage(context),
+        onPressed: () => _sendMessage(
+            context,
+            MessageData(
+              fromEmail: fromEmail,
+              fromUsername: fromDisplayName,
+              toEmail: toEmail,
+              title: titleController.text.trim(),
+              content: contentController.text.trim(),
+              isUnread: true,
+            )),
         child: const Icon(Icons.send_rounded, color: Colors.white),
       ),
     );
   }
 
-  _sendMessage(BuildContext context) async {
+  _sendMessage(BuildContext context, MessageData messageData) async {
     if (_formKey.currentState?.validate() ?? false) {
-      final future = MessagingRepository.sendMessage(MessageData(
-        fromEmail: fromEmail,
-        toEmail: toEmail,
-        title: titleController.text.trim(),
-        content: contentController.text.trim(),
-        isUnread: true,
-      ));
+      final success = await Utils.showLoading(
+        context,
+        MessagingRepository.sendMessage(messageData),
+      );
 
-      final success = await Utils.showLoading(context, future);
       if (success && mounted) {
         Navigator.of(context).pop();
       }

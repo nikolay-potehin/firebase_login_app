@@ -1,5 +1,7 @@
+import 'package:firebase_login_app/components/user_avatar.dart';
 import 'package:firebase_login_app/extensions/timestamp_extensions.dart';
 import 'package:firebase_login_app/models/message_data.dart';
+import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,7 @@ class _UserInfoCardState extends State<UserInfoCard> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CircleAvatar(child: Icon(Icons.person)),
+            UserAvatar(UserAvatars.fromUserData(widget.fromUser)),
             const SizedBox(width: 10),
             Expanded(
               child: Column(

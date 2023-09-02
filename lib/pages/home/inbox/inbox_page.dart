@@ -32,17 +32,18 @@ class InboxPage extends StatelessWidget {
 
             if (messages.isEmpty) return const EmptyInboxWidget();
 
-            return ListView.builder(
-              padding: const EdgeInsets.all(20),
-              itemCount: length,
+            return ListView.separated(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              itemCount: length!,
               itemBuilder: (context, index) {
-                final doc = messages[index];
+                final messageDoc = messages[index];
 
                 return MessageTile(
-                  emailDoc: doc,
-                  onTap: () => _openMessage(context, doc),
+                  messageDoc: messageDoc,
+                  onTap: () => _openMessage(context, messageDoc),
                 );
               },
+              separatorBuilder: (context, index) => const Divider(),
             );
           },
         ),

@@ -8,4 +8,27 @@ extension TimestampExtensions on Timestamp {
 
     return '$date, $time';
   }
+
+  String toShortTimeString() {
+    final dateTime = toDate();
+    if (dateTime.day == DateTime.now().day) {
+      return '${dateTime.hour}:${dateTime.minute}';
+    }
+    return '${dateTime.day} ${_months[dateTime.month]}';
+  }
+
+  static final List<String> _months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
 }

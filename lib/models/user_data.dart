@@ -6,10 +6,12 @@ class UserData {
     required this.displayName,
     required this.creationTime,
     required this.lastSignInTime,
+    this.avatarName,
   });
 
   final String email;
   final String displayName;
+  final String? avatarName;
   final Timestamp creationTime;
   final Timestamp lastSignInTime;
 
@@ -22,6 +24,7 @@ class UserData {
       displayName: json['displayName'],
       creationTime: json['creationTime'],
       lastSignInTime: json['lastSignInTime'],
+      avatarName: json['avatarName'],
     );
   }
 
@@ -30,5 +33,6 @@ class UserData {
         'displayName': displayName,
         'creationTime': creationTime,
         'lastSignInTime': lastSignInTime,
+        if (avatarName != null) 'avatarName': avatarName,
       };
 }
