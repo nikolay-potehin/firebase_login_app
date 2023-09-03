@@ -7,8 +7,8 @@ class MessagingRepository {
     final recipientExists = await FirebaseFirestore.instance
             .collection('users')
             .get()
-            .then((collection) => collection.docs
-                .indexWhere((element) => element.id == messageData.toEmail)) !=
+            .then((collection) => collection.docs.indexWhere(
+                (element) => element.id == messageData.toUser.email)) !=
         -1;
 
     if (!recipientExists) {
@@ -18,11 +18,17 @@ class MessagingRepository {
 
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(messageData.toEmail)
-        .collection('messages')
+        .doc(messageData.fromUser.email)
+        .collection('sendedMessages')
+        .add(MessageData.asSended(messageData).toJson());
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(messageData.toUser.email)
+        .collection('receivedMessages')
         .add(messageData.toJson());
 
-    Utils.showSnackBar('Message sent to "${messageData.toEmail}"');
+    Utils.showSnackBar('Message sent to "${messageData.toUser.email}"');
     return true;
   }
 }

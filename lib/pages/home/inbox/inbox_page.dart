@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/extensions/string_extensions.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/inbox/empty_inbox_widget.dart';
+import 'package:firebase_login_app/pages/home/inbox/inbox_drawer.dart';
 import 'package:firebase_login_app/pages/home/inbox/message_tile.dart';
 import 'package:firebase_login_app/pages/home/message/message_page.dart';
 import 'package:flutter/material.dart';
@@ -15,32 +17,34 @@ class InboxPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inbox'),
-        actions: [
-          IconButton(
-            onPressed: () => _deleteAllMessages(context),
-            icon: const Icon(Icons.delete_forever),
-          )
+        actions: const [
+          // IconButton(
+          //   onPressed: () => _deleteAllMessages(context),
+          //   icon: const Icon(Icons.delete_forever),
+          // )
         ],
       ),
+      drawer: const InboxDrawer(),
       body: Center(
         child: Consumer<InboxModel>(
-          builder: (context, model, _) {
-            final length = model.receivedMessages?.size;
-            final messages = model.receivedMessages?.docs;
+          builder: (context, inbox, _) {
+            final messages = inbox.messages;
 
             if (messages == null) return const CircularProgressIndicator();
 
-            if (messages.isEmpty) return const EmptyInboxWidget();
+            if (messages.isEmpty) return EmptyInboxWidget(filter: inbox.filter);
 
             return ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              itemCount: length!,
+              itemCount: messages.length + 1,
               itemBuilder: (context, index) {
-                final messageDoc = messages[index];
+                if (index == 0) return _FolderNameWidget(inbox.filter);
+                final messageDoc = messages[index - 1];
 
                 return MessageTile(
                   messageDoc: messageDoc,
                   onTap: () => _openMessage(context, messageDoc),
+                  asSended: inbox.filter == Messages.sended,
                 );
               },
             );
@@ -71,5 +75,24 @@ class InboxPage extends StatelessWidget {
     if (shouldDelete && context.mounted) {
       context.read<InboxModel>().deleteAllMessages();
     }
+  }
+}
+
+class _FolderNameWidget extends StatelessWidget {
+  const _FolderNameWidget(this.filter);
+
+  final Messages filter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      decoration: const BoxDecoration(),
+      child: Text(
+        filter.name.capitalize(),
+        style: const TextStyle(color: Colors.black54),
+      ),
+    );
   }
 }

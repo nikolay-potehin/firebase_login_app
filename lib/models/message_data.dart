@@ -4,7 +4,7 @@ import 'package:firebase_login_app/models/user_data.dart';
 class MessageData {
   MessageData({
     required this.fromUser,
-    required this.toEmail,
+    required this.toUser,
     required this.title,
     required this.content,
     required this.isUnread,
@@ -12,19 +12,28 @@ class MessageData {
   }) : sendAtTime = sendAtTime ?? Timestamp.now();
 
   final UserData fromUser;
+  final UserData toUser;
   final String title;
   final String content;
-  final String toEmail;
   final Timestamp sendAtTime;
   final bool isUnread;
+
+  factory MessageData.asSended(MessageData message) => MessageData(
+        fromUser: message.fromUser,
+        toUser: message.toUser,
+        title: message.title,
+        content: message.content,
+        isUnread: false,
+      );
 
   factory MessageData.fromDocument(
       DocumentSnapshot<Map<String, dynamic>> document) {
     final json = document.data()!;
+    print(json);
 
     return MessageData(
       fromUser: UserData.fromJson(json['fromUser']),
-      toEmail: json['toEmail'],
+      toUser: UserData.fromJson(json['toUser']),
       title: json['title'],
       content: json['content'],
       sendAtTime: json['sendAtTime'],
@@ -34,7 +43,7 @@ class MessageData {
 
   Map<String, dynamic> toJson() => {
         'fromUser': fromUser.toJson(),
-        'toEmail': toEmail,
+        'toUser': toUser.toJson(),
         'title': title,
         'content': content,
         'sendAtTime': sendAtTime,

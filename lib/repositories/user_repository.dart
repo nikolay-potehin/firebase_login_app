@@ -90,11 +90,16 @@ class UserRepository {
   }
 
   static Future<void> _updateUser() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.email)
-        .update({
-      'lastSignInTime': user!.metadata.lastSignInTime,
-    });
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.email)
+          .update({
+        'lastSignInTime': user!.metadata.lastSignInTime,
+      });
+    } on FirebaseException catch (e) {
+      logout();
+      Utils.showSnackBar(e.message ?? 'Couldn\'t find user, please login');
+    }
   }
 }

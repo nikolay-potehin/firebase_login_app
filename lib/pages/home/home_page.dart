@@ -46,7 +46,7 @@ class _HomePageViewState extends State<_HomePageView> {
         body: _pages[currentIndex],
         bottomNavigationBar: Consumer<InboxModel>(
           builder: (context, inbox, _) {
-            final count = inbox.countUnreadMessages();
+            final count = inbox.messagesCounter[Messages.unread];
 
             return BottomNavigationBar(
               currentIndex: currentIndex,
@@ -56,8 +56,8 @@ class _HomePageViewState extends State<_HomePageView> {
               items: [
                 BottomNavigationBarItem(
                   icon: Badge.count(
-                    isLabelVisible: count != 0,
-                    count: count,
+                    isLabelVisible: count != null && count > 0,
+                    count: count ?? 0,
                     child: Icon(
                         currentIndex == 0 ? Icons.email : Icons.email_outlined),
                   ),

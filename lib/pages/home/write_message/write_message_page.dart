@@ -67,7 +67,7 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
 
     final message = MessageData(
       fromUser: UserData.fromDocument(currentUserDoc),
-      toEmail: widget.toUser.email,
+      toUser: widget.toUser,
       title: titleController.text.trim(),
       content: contentController.text.trim(),
       isUnread: true,

@@ -2,7 +2,6 @@ import 'package:firebase_login_app/components/user_avatar.dart';
 import 'package:firebase_login_app/extensions/timestamp_extensions.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
-import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class ExpandableMessageInfoCard extends StatefulWidget {
@@ -43,7 +42,7 @@ class _ExpandableMessageInfoCardState extends State<ExpandableMessageInfoCard> {
                     style: const TextStyle(fontSize: 18),
                   ),
                   Text(
-                    'to: you (${widget.message.toEmail})',
+                    'to: ${widget.message.toUser.email}',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.grey),
                   ),
@@ -94,8 +93,8 @@ class _ExpandedInfoCard extends StatelessWidget {
           const SizedBox(height: 8),
           _InfoRow(
             'To:',
-            UserRepository.user!.displayName!,
-            UserRepository.user!.email!,
+            message.toUser.displayName,
+            message.toUser.email,
           ),
           const SizedBox(height: 8),
           _InfoRow(

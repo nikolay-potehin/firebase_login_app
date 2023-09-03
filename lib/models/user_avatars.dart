@@ -52,11 +52,11 @@ class UserAvatars {
 }
 
 class UserAvatarData {
+  final IconData iconData;
+  final Color? backgroundColor;
+
   const UserAvatarData({
     required this.iconData,
     this.backgroundColor,
   });
-
-  final IconData iconData;
-  final Color? backgroundColor;
 }

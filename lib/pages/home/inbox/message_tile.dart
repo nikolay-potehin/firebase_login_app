@@ -10,10 +10,12 @@ class MessageTile extends StatelessWidget {
     super.key,
     required this.messageDoc,
     required this.onTap,
+    this.asSended = false,
   });
 
-  final QueryDocumentSnapshot<Map<String, dynamic>> messageDoc;
+  final DocumentSnapshot<Map<String, dynamic>> messageDoc;
   final VoidCallback onTap;
+  final bool asSended;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,11 @@ class MessageTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              UserAvatar(UserAvatars.fromUserData(message.fromUser)),
+              asSended
+                  ? UserAvatar(UserAvatars.fromUserData(message.toUser))
+                  : UserAvatar(UserAvatars.fromUserData(message.fromUser)),
               const SizedBox(width: 16),
-              _tileContent(message, fontWeight),
+              _tileContent(message, fontWeight, asSended),
               _tileDate(message, fontWeight),
             ],
           ),
@@ -61,13 +65,19 @@ class MessageTile extends StatelessWidget {
     );
   }
 
-  Expanded _tileContent(MessageData message, FontWeight fontWeight) {
+  Expanded _tileContent(
+    MessageData message,
+    FontWeight fontWeight,
+    bool asSended,
+  ) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            message.fromUser.displayName,
+            asSended
+                ? 'To: ${message.toUser.displayName}'
+                : message.fromUser.displayName,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: TextStyle(
