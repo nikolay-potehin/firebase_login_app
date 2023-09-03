@@ -69,6 +69,7 @@ class MessageTile extends StatelessWidget {
           Text(
             message.fromUser.displayName,
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: TextStyle(
               color: Colors.black87,
               fontWeight: fontWeight,
@@ -79,6 +80,7 @@ class MessageTile extends StatelessWidget {
           Text(
             message.title,
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: TextStyle(
               color: Colors.black87,
               fontWeight: fontWeight,
@@ -88,6 +90,7 @@ class MessageTile extends StatelessWidget {
           Text(
             message.content,
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: const TextStyle(color: Colors.black87),
           ),
         ],
