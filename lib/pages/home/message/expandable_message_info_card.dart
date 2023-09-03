@@ -5,19 +5,22 @@ import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
-class MessageInfoCard extends StatefulWidget {
-  const MessageInfoCard({
+class ExpandableMessageInfoCard extends StatefulWidget {
+  const ExpandableMessageInfoCard({
     super.key,
     required this.message,
+    required this.onReplyPressed,
   });
 
   final MessageData message;
+  final VoidCallback onReplyPressed;
 
   @override
-  State<MessageInfoCard> createState() => _MessageInfoCardState();
+  State<ExpandableMessageInfoCard> createState() =>
+      _ExpandableMessageInfoCardState();
 }
 
-class _MessageInfoCardState extends State<MessageInfoCard> {
+class _ExpandableMessageInfoCardState extends State<ExpandableMessageInfoCard> {
   bool isExpanded = false;
 
   @override
@@ -49,41 +52,58 @@ class _MessageInfoCardState extends State<MessageInfoCard> {
             ),
             IconButton(
               visualDensity: VisualDensity.compact,
+              onPressed: widget.onReplyPressed,
+              icon: const Icon(Icons.reply),
+            ),
+            IconButton(
+              visualDensity: VisualDensity.compact,
               onPressed: () => setState(() => isExpanded = !isExpanded),
               icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
             ),
           ],
         ),
-        if (isExpanded)
-          Container(
-            margin: const EdgeInsets.only(top: 15),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.black),
-            ),
-            child: Column(
-              children: [
-                _InfoRow(
-                  'From:',
-                  widget.message.fromUser.displayName,
-                  widget.message.fromUser.email,
-                ),
-                const SizedBox(height: 8),
-                _InfoRow(
-                  'To:',
-                  UserRepository.user!.displayName!,
-                  UserRepository.user!.email!,
-                ),
-                const SizedBox(height: 8),
-                _InfoRow(
-                  'Date:',
-                  widget.message.sendAtTime.toTimeString(),
-                ),
-              ],
-            ),
-          ),
+        if (isExpanded) _ExpandedInfoCard(message: widget.message),
       ],
+    );
+  }
+}
+
+class _ExpandedInfoCard extends StatelessWidget {
+  const _ExpandedInfoCard({
+    required this.message,
+  });
+
+  final MessageData message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.black),
+      ),
+      child: Column(
+        children: [
+          _InfoRow(
+            'From:',
+            message.fromUser.displayName,
+            message.fromUser.email,
+          ),
+          const SizedBox(height: 8),
+          _InfoRow(
+            'To:',
+            UserRepository.user!.displayName!,
+            UserRepository.user!.email!,
+          ),
+          const SizedBox(height: 8),
+          _InfoRow(
+            'Date:',
+            message.sendAtTime.toTimeString(),
+          ),
+        ],
+      ),
     );
   }
 }

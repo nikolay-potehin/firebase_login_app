@@ -1,5 +1,6 @@
 import 'package:firebase_login_app/models/message_data.dart';
-import 'package:firebase_login_app/pages/home/message/message_info_card.dart';
+import 'package:firebase_login_app/pages/home/message/expandable_message_info_card.dart';
+import 'package:firebase_login_app/pages/home/write_message/write_message_page.dart';
 import 'package:flutter/material.dart';
 
 class MessagePageBody extends StatelessWidget {
@@ -23,7 +24,15 @@ class MessagePageBody extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MessageInfoCard(message: message),
+              ExpandableMessageInfoCard(
+                message: message,
+                onReplyPressed: () =>
+                    Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => WriteMessagePage(
+                    toUser: message.fromUser,
+                  ),
+                )),
+              ),
               const SizedBox(height: 20),
               Text(message.content, style: const TextStyle(fontSize: 18)),
             ],

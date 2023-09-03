@@ -21,11 +21,14 @@ class WriteMessageForm extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const _FormTitle('Topic'),
-          MyTextFormField(
-            controller: titleController,
-            hintText: 'Message topic',
-            inputFormatters: const [],
-            maxLines: 1,
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 140),
+            child: MyTextFormField(
+              controller: titleController,
+              hintText: 'Message topic',
+              inputFormatters: const [],
+              maxLines: null,
+            ),
           ),
           const _FormTitle('Message'),
           ConstrainedBox(

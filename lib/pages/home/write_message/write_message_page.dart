@@ -1,7 +1,7 @@
-import 'package:firebase_login_app/components/my_text_form_field.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/users_model.dart';
+import 'package:firebase_login_app/pages/home/write_message/user_info_card.dart';
 import 'package:firebase_login_app/pages/home/write_message/write_message_form.dart';
 import 'package:firebase_login_app/repositories/messaging_repository.dart';
 import 'package:firebase_login_app/models/utils.dart';
@@ -24,21 +24,16 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-  final fromEmailController = TextEditingController();
-  final toEmailController = TextEditingController();
 
   @override
   void dispose() {
     titleController.dispose();
     contentController.dispose();
-    fromEmailController.dispose();
-    toEmailController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final fromEmail = UserRepository.user!.email!;
     final toUser = widget.toUser;
 
     return Scaffold(
@@ -48,16 +43,8 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MyTextFormField(
-              controller: fromEmailController,
-              hintText: 'From: You ($fromEmail)',
-              enabled: false,
-            ),
-            MyTextFormField(
-              controller: fromEmailController,
-              hintText: 'To: ${toUser.displayName} (${toUser.email})',
-              enabled: false,
-            ),
+            UserInfoCard(user: toUser),
+            const SizedBox(height: 10),
             WriteMessageForm(
               formKey: _formKey,
               titleController: titleController,
