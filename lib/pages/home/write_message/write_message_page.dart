@@ -77,6 +77,9 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
   }
 
   void _trySendMessage() async {
+    // Remove onscreen keyboard
+    FocusManager.instance.primaryFocus?.unfocus();
+
     if (_formKey.currentState?.validate() ?? false) {
       final success = await Utils.showLoading(context, _sendMessage());
 

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_login_app/extensions/string_extensions.dart';
+import 'package:firebase_login_app/models/inbox_appbar_manager.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/inbox/empty_inbox_widget.dart';
+import 'package:firebase_login_app/pages/home/inbox/folder_name_widget.dart';
 import 'package:firebase_login_app/pages/home/inbox/inbox_drawer.dart';
 import 'package:firebase_login_app/pages/home/inbox/message_tile.dart';
 import 'package:firebase_login_app/pages/home/message/message_page.dart';
@@ -14,17 +15,11 @@ class InboxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final inboxManager = context.watch<InboxAppbarManager>();
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Inbox'),
-        actions: const [
-          // IconButton(
-          //   onPressed: () => _deleteAllMessages(context),
-          //   icon: const Icon(Icons.delete_forever),
-          // )
-        ],
-      ),
-      drawer: const InboxDrawer(),
+      appBar: _buildAppBar(context),
+      drawer: inboxManager.isActive ? null : const InboxDrawer(),
       body: Center(
         child: Consumer<InboxModel>(
           builder: (context, inbox, _) {
@@ -38,12 +33,19 @@ class InboxPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               itemCount: messages.length + 1,
               itemBuilder: (context, index) {
-                if (index == 0) return _FolderNameWidget(inbox.filter);
+                if (index == 0) return FolderNameWidget(inbox.filter);
                 final messageDoc = messages[index - 1];
 
                 return MessageTile(
                   messageDoc: messageDoc,
-                  onTap: () => _openMessage(context, messageDoc),
+                  onTap: () {
+                    final manager = context.read<InboxAppbarManager>();
+                    if (manager.isActive) {
+                      manager.unselectAll();
+                    } else {
+                      _openMessage(context, messageDoc);
+                    }
+                  },
                   asSended: inbox.filter == Messages.sended,
                 );
               },
@@ -54,6 +56,45 @@ class InboxPage extends StatelessWidget {
     );
   }
 
+  AppBar _buildAppBar(BuildContext context) {
+    final manager = context.read<InboxAppbarManager>();
+    final isActive = manager.isActive;
+
+    return AppBar(
+      // backgroundColor: isActive ? Colors.white : null,
+      // foregroundColor: isActive ? Colors.black87 : null,
+      title: Text(isActive ? 'Selected: ${manager.countSelected}' : 'Inbox'),
+      leading: isActive
+          ? IconButton(
+              onPressed: () => manager.unselectAll(),
+              icon: const Icon(Icons.arrow_back),
+            )
+          : null,
+      actions: [
+        if (isActive)
+          IconButton(
+            onPressed: () => _deleteSelectedMessages(context),
+            icon: const Icon(Icons.delete),
+          ),
+      ],
+    );
+  }
+
+  void _deleteSelectedMessages(BuildContext context) async {
+    final manager = context.read<InboxAppbarManager>();
+    final shouldDelete = await Utils.showWarning(
+          context,
+          title: 'Delete selected messages?',
+          content:
+              'You are about to delete all selected messages. Are you sure?',
+        ) ??
+        false;
+
+    if (shouldDelete && context.mounted) {
+      Utils.showLoading(context, manager.deleteSelectedMessages());
+    }
+  }
+
   void _openMessage(
     BuildContext context,
     DocumentSnapshot<Map<String, dynamic>> doc,
@@ -61,38 +102,5 @@ class InboxPage extends StatelessWidget {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => MessagePage(doc),
     ));
-  }
-
-  void _deleteAllMessages(BuildContext context) async {
-    final shouldDelete = await Utils.showWarning(
-          context,
-          title: 'Delete All Messages',
-          content:
-              'You are about to delete all of your messages. Are you sure?',
-        ) ??
-        false;
-
-    if (shouldDelete && context.mounted) {
-      context.read<InboxModel>().deleteAllMessages();
-    }
-  }
-}
-
-class _FolderNameWidget extends StatelessWidget {
-  const _FolderNameWidget(this.filter);
-
-  final Messages filter;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      decoration: const BoxDecoration(),
-      child: Text(
-        filter.name.capitalize(),
-        style: const TextStyle(color: Colors.black54),
-      ),
-    );
   }
 }

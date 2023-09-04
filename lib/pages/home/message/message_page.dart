@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/message/message_page_body.dart';
+import 'package:firebase_login_app/repositories/messaging_repository.dart';
 import 'package:flutter/material.dart';
 
 class MessagePage extends StatefulWidget {
@@ -48,8 +49,12 @@ class _MessagePageState extends State<MessagePage> {
         ) ??
         false;
 
-    if (shouldDelete) {
-      await widget.messageDoc.reference.delete();
+    if (shouldDelete && context.mounted) {
+      await Utils.showLoading(
+        context,
+        MessagingRepository.deleteMessages([widget.messageDoc]),
+      );
+
       if (context.mounted) Navigator.of(context).pop();
     }
   }

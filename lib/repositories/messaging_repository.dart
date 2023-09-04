@@ -31,4 +31,15 @@ class MessagingRepository {
     Utils.showSnackBar('Message sent to "${messageData.toUser.email}"');
     return true;
   }
+
+  static Future<void> deleteMessages(
+      List<DocumentSnapshot<Map<String, dynamic>>> messagesDocs) {
+    final batch = FirebaseFirestore.instance.batch();
+
+    for (final messageDoc in messagesDocs) {
+      batch.delete(messageDoc.reference);
+    }
+
+    return batch.commit();
+  }
 }

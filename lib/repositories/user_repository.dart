@@ -34,7 +34,7 @@ class UserRepository {
         password: password,
       );
       await user?.updateDisplayName(displayName);
-      _setUser();
+      _setUserDetails();
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -80,7 +80,7 @@ class UserRepository {
     }
   }
 
-  static Future<void> _setUser() async {
+  static Future<void> _setUserDetails() async {
     await FirebaseFirestore.instance.collection('users').doc(user!.email).set({
       'email': user!.email,
       'displayName': user!.displayName,

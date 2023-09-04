@@ -91,20 +91,4 @@ class InboxModel extends ChangeNotifier {
     }
     return null;
   }
-
-  void deleteAllMessages() async {
-    final batch = FirebaseFirestore.instance.batch();
-
-    final messages = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(UserRepository.user!.email)
-        .collection('messages')
-        .get();
-
-    for (var document in messages.docs) {
-      batch.delete(document.reference);
-    }
-
-    await batch.commit();
-  }
 }

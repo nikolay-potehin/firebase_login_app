@@ -1,3 +1,4 @@
+import 'package:firebase_login_app/models/inbox_appbar_manager.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/models/utils.dart';
@@ -15,6 +16,8 @@ class HomePage extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => InboxModel(), lazy: false),
         ChangeNotifierProvider(create: (_) => UsersModel(), lazy: false),
+        ChangeNotifierProvider(
+            create: (_) => InboxAppbarManager(), lazy: false),
       ],
       child: const _HomePageView(),
     );
