@@ -14,7 +14,7 @@ class UserTile extends StatelessWidget {
     required this.userDoc,
   });
 
-  final QueryDocumentSnapshot<Map<String, dynamic>> userDoc;
+  final DocumentSnapshot<Map<String, dynamic>> userDoc;
 
   @override
   Widget build(BuildContext context) {

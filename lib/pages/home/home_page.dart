@@ -13,8 +13,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => InboxModel()),
-        ChangeNotifierProvider(create: (_) => UsersModel()),
+        ChangeNotifierProvider(create: (_) => InboxModel(), lazy: false),
+        ChangeNotifierProvider(create: (_) => UsersModel(), lazy: false),
       ],
       child: const _HomePageView(),
     );

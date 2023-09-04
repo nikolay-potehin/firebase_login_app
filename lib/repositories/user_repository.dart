@@ -14,7 +14,7 @@ class UserRepository {
         email: email,
         password: password,
       );
-      await _updateUser();
+      await _updateLastSingInTime();
       return true;
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(
@@ -33,7 +33,7 @@ class UserRepository {
         email: email,
         password: password,
       );
-      user?.updateDisplayName(displayName);
+      await user?.updateDisplayName(displayName);
       _setUser();
 
       return true;
@@ -73,7 +73,7 @@ class UserRepository {
 
     try {
       await FirebaseAuth.instance.currentUser!.reload();
-      await _updateUser();
+      await _updateLastSingInTime();
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(
           e.message ?? 'Couldn\'t reload user, please try again later');
@@ -89,7 +89,7 @@ class UserRepository {
     });
   }
 
-  static Future<void> _updateUser() async {
+  static Future<void> _updateLastSingInTime() async {
     try {
       await FirebaseFirestore.instance
           .collection('users')

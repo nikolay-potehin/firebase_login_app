@@ -49,6 +49,13 @@ class InboxModel extends ChangeNotifier {
     });
   }
 
+  void cancel() {
+    _receivedMsgSubscription.cancel();
+    _sendedMsgSubscription.cancel();
+    _receivedMessages = null;
+    _sendedMessages = null;
+  }
+
   void setFilter(Messages filter) {
     _messageFilter = filter;
     notifyListeners();
@@ -71,13 +78,6 @@ class InboxModel extends ChangeNotifier {
             ?.where((document) => document.get('isUnread') ?? false)
             .toList();
     }
-  }
-
-  void cancel() {
-    _receivedMsgSubscription.cancel();
-    _sendedMsgSubscription.cancel();
-    _receivedMessages = null;
-    _sendedMessages = null;
   }
 
   int? _countUnreadMessages() {

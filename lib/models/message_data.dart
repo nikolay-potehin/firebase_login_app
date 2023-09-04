@@ -29,7 +29,6 @@ class MessageData {
   factory MessageData.fromDocument(
       DocumentSnapshot<Map<String, dynamic>> document) {
     final json = document.data()!;
-    print(json);
 
     return MessageData(
       fromUser: UserData.fromJson(json['fromUser']),
