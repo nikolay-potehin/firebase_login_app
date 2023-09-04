@@ -11,13 +11,13 @@ class InboxDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<InboxModel>(
       builder: (context, inbox, _) {
-        return Drawer(
+        return const Drawer(
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   _DrawerTitle(),
                   Divider(),
                   _DrawerTile(
