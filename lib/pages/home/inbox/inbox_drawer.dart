@@ -65,7 +65,6 @@ class _DrawerTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: ListTile(
-        dense: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.horizontal(right: Radius.circular(16)),
         ),
