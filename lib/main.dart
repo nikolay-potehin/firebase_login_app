@@ -20,7 +20,7 @@ class LoginApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login App',
+      title: 'Green Box',
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: Utils.messengerKey,
       theme: myThemeData,
