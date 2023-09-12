@@ -1,5 +1,7 @@
 import 'package:firebase_login_app/components/user_avatar.dart';
+import 'package:firebase_login_app/extensions/string_extensions.dart';
 import 'package:firebase_login_app/extensions/timestamp_extensions.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class _ExpandableMessageInfoCardState extends State<ExpandableMessageInfoCard> {
                     style: const TextStyle(fontSize: 18),
                   ),
                   Text(
-                    'to: ${widget.message.toUser.email}',
+                    '${context.localize(LocKeys.to)}: ${widget.message.toUser.email}',
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.grey),
                   ),
@@ -86,19 +88,19 @@ class _ExpandedInfoCard extends StatelessWidget {
       child: Column(
         children: [
           _InfoRow(
-            'From:',
+            '${context.localize(LocKeys.from).capitalize()}:',
             message.fromUser.displayName,
             message.fromUser.email,
           ),
           const SizedBox(height: 8),
           _InfoRow(
-            'To:',
+            '${context.localize(LocKeys.to).capitalize()}:',
             message.toUser.displayName,
             message.toUser.email,
           ),
           const SizedBox(height: 8),
           _InfoRow(
-            'Date:',
+            '${context.localize(LocKeys.date).capitalize()}:',
             message.sendAtTime.toTimeString(),
           ),
         ],

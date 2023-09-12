@@ -1,4 +1,3 @@
-import 'package:firebase_login_app/models/form_validator.dart';
 import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,7 @@ class MyTextFormField extends StatefulWidget {
   const MyTextFormField({
     super.key,
     required this.controller,
-    this.validator = FormValidator.validateDefault,
+    this.validator,
     this.hintText = '',
     this.obscureText = false,
     this.hideButton = false,
@@ -18,7 +17,7 @@ class MyTextFormField extends StatefulWidget {
   });
 
   final TextEditingController controller;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   final String hintText;
   final Widget? prefixIcon;
   final bool obscureText;

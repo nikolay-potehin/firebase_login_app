@@ -1,3 +1,4 @@
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeBackAvatar extends StatelessWidget {
@@ -15,17 +16,17 @@ class WelcomeBackAvatar extends StatelessWidget {
           size: 120,
           color: Colors.grey.shade200,
         ),
-        const Text(
-          'Welcome back',
-          style: TextStyle(
+        Text(
+          context.localize(LocKeys.welcomeBack),
+          style: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'Sign In to continue',
-          style: TextStyle(color: Colors.grey),
+        Text(
+          context.localize(LocKeys.signInToContinue),
+          style: const TextStyle(color: Colors.grey),
         ),
       ],
     );

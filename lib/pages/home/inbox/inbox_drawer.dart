@@ -1,4 +1,6 @@
 import 'package:firebase_login_app/extensions/int_extenstions.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
+import 'package:firebase_login_app/localization/localization_keys.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
@@ -11,30 +13,30 @@ class InboxDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<InboxModel>(
       builder: (context, inbox, _) {
-        return const Drawer(
+        return Drawer(
           child: SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _DrawerTitle(),
-                  Divider(),
+                  const _DrawerTitle(),
+                  const Divider(),
                   _DrawerTile(
                     filter: Messages.received,
                     iconData: Icons.inbox_rounded,
-                    title: 'Received',
+                    title: context.localize(Messages.received.toLocKey()),
                   ),
-                  Divider(),
+                  const Divider(),
                   _DrawerTile(
                     filter: Messages.unread,
                     iconData: Icons.mark_email_unread_outlined,
-                    title: 'Unread',
+                    title: context.localize(Messages.unread.toLocKey()),
                   ),
                   _DrawerTile(
                     filter: Messages.sended,
                     iconData: Icons.send_outlined,
-                    title: 'Sended',
+                    title: context.localize(Messages.sended.toLocKey()),
                   ),
                 ],
               ),
@@ -95,7 +97,7 @@ class _DrawerTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 20, bottom: 10),
       child: Text(
-        'Green Box',
+        context.localize(LocKeys.greenBox),
         style: TextStyle(
           fontSize: 20,
           color: myPrimarySwatch,

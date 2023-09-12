@@ -1,10 +1,11 @@
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/inbox_appbar_manager.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/models/users_model.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/account/account_page.dart';
 import 'package:firebase_login_app/pages/home/inbox/inbox_page.dart';
 import 'package:firebase_login_app/pages/home/users/users_page.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class _HomePageViewState extends State<_HomePageView> {
       onWillPop: () async {
         final shouldPop = await Utils.showWarning(
           context,
-          title: 'Do you want to exit app?',
+          title: context.localize(LocKeys.onAppExitWarning),
         );
 
         return shouldPop ?? false;

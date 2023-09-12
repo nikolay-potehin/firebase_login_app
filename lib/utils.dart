@@ -1,7 +1,14 @@
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
+
+  static void showMessage(LocKeys errorLocKey) {
+    final String? msg = messengerKey.currentContext?.localize(errorLocKey);
+
+    if (msg != null) showSnackBar(msg);
+  }
 
   static void showSnackBar(String message) {
     final snackBar = SnackBar(content: Text(message));
@@ -26,11 +33,11 @@ class Utils {
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('No'),
+              child: Text(context.localize(LocKeys.no)),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Yes'),
+              child: Text(context.localize(LocKeys.yes)),
             ),
           ],
         ),

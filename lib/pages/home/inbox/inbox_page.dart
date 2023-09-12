@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/inbox_appbar_manager.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/inbox/empty_inbox_widget.dart';
 import 'package:firebase_login_app/pages/home/inbox/folder_name_widget.dart';
 import 'package:firebase_login_app/pages/home/inbox/inbox_drawer.dart';
 import 'package:firebase_login_app/pages/home/inbox/message_tile.dart';
 import 'package:firebase_login_app/pages/home/message/message_page.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -61,9 +62,9 @@ class InboxPage extends StatelessWidget {
     final isActive = manager.isActive;
 
     return AppBar(
-      // backgroundColor: isActive ? Colors.white : null,
-      // foregroundColor: isActive ? Colors.black87 : null,
-      title: Text(isActive ? 'Selected: ${manager.countSelected}' : 'Inbox'),
+      title: Text(isActive
+          ? '${context.localize(LocKeys.selected)}: ${manager.countSelected}'
+          : context.localize(LocKeys.inbox)),
       leading: isActive
           ? IconButton(
               onPressed: () => manager.unselectAll(),
@@ -84,9 +85,8 @@ class InboxPage extends StatelessWidget {
     final manager = context.read<InboxAppbarManager>();
     final shouldDelete = await Utils.showWarning(
           context,
-          title: 'Delete selected messages?',
-          content:
-              'You are about to delete all selected messages. Are you sure?',
+          title: context.localize(LocKeys.deleteSelectedMessages),
+          content: context.localize(LocKeys.deleteSelectedMessagesWarning),
         ) ??
         false;
 

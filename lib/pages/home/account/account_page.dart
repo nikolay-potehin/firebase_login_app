@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/components/user_avatar.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/users_model.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
 import 'package:firebase_login_app/pages/home/account/account_info.dart';
 import 'package:firebase_login_app/pages/home/account/editable_user_avatar.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Account')),
+      appBar: AppBar(title: Text(context.localize(LocKeys.account))),
       body: const Center(
         child: _AccountPageBody(),
       ),
@@ -55,15 +56,15 @@ class _AccountPageBody extends StatelessWidget {
                   onPressed: () async {
                     final shouldLogout = await Utils.showWarning(
                           context,
-                          title: 'Log out',
-                          content: 'You sure you want to log out?',
+                          title: context.localize(LocKeys.logout),
+                          content: context.localize(LocKeys.logoutWarning),
                           barrierDismissible: false,
                         ) ??
                         false;
 
                     if (shouldLogout && context.mounted) _logout(context);
                   },
-                  child: const Text('LOG OUT'),
+                  child: Text(context.localize(LocKeys.logout).toUpperCase()),
                 ),
               ],
             ),
@@ -97,8 +98,8 @@ class _AccountPageBody extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          'Pick Avatar',
+        title: Text(
+          context.localize(LocKeys.pickAvatar),
           textAlign: TextAlign.center,
         ),
         content: Wrap(

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/message_data.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/home/message/message_page_body.dart';
 import 'package:firebase_login_app/repositories/messaging_repository.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 
 class MessagePage extends StatefulWidget {
@@ -30,7 +31,7 @@ class _MessagePageState extends State<MessagePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Message'),
+        title: Text(context.localize(LocKeys.message)),
         actions: [
           IconButton(
             onPressed: () => _deleteMessage(context),
@@ -45,7 +46,7 @@ class _MessagePageState extends State<MessagePage> {
   void _deleteMessage(BuildContext context) async {
     final shouldDelete = await Utils.showWarning(
           context,
-          title: 'Delete this message?',
+          title: context.localize(LocKeys.deleteThisMessageWarning),
         ) ??
         false;
 

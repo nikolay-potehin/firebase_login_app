@@ -1,32 +1,35 @@
 import 'package:firebase_login_app/extensions/string_extensions.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
+import 'package:flutter/material.dart';
 
 class FormValidator {
-  static String? validateEmail(String? email) {
+  static String? validateEmail(BuildContext context, String? email) {
     if (email == null || email.isEmpty) {
-      return 'Email cannot be empty';
+      return context.localize(LocKeys.onEmptyEmailError);
     }
     if (!email.isValidEmail()) {
-      return 'Email adress is badly formatted';
+      return context.localize(LocKeys.onInvalidEmailError);
     }
     return null;
   }
 
-  static String? validatePassword(String? password, {String? compareTo}) {
+  static String? validatePassword(BuildContext context, String? password,
+      {String? compareTo}) {
     if (password == null || password.isEmpty) {
-      return 'Password cannot be empty';
+      return context.localize(LocKeys.onEmptyPasswordError);
     }
     if (password.length < 6) {
-      return 'Password should be at least 6 symbols';
+      return context.localize(LocKeys.onPasswordTooShortError);
     }
     if (compareTo != null && password != compareTo) {
-      return 'Password do not match';
+      return context.localize(LocKeys.onPasswordsDontMatchError);
     }
     return null;
   }
 
-  static String? validateDefault(String? value) {
+  static String? validateDefault(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
-      return 'Field cannot be empty';
+      return context.localize(LocKeys.onEmptyFieldError);
     }
     return null;
   }

@@ -1,6 +1,7 @@
-import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/pages/authentication/authentication_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 
 class EmailVerificationView extends StatefulWidget {
@@ -16,15 +17,15 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Email Verification')),
+      appBar: AppBar(title: Text(context.localize(LocKeys.emailVerification))),
       body: Padding(
         padding: const EdgeInsets.all(40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'A verification email has been sent to your email '
-              '"${UserRepository.user?.email}"',
+              "${context.localize(LocKeys.aVerificationEmailHasBeenSentToYourEmail)}"
+              " ${UserRepository.user?.email}",
               style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
@@ -33,16 +34,15 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
               onPressed: () async {
                 final shouldLogout = await Utils.showWarning(
                       context,
-                      title: 'Cancel & log out',
-                      content:
-                          'You sure you want to cancel email verification & log out?',
+                      title: context.localize(LocKeys.cancelAndLogout),
+                      content: context.localize(LocKeys.cancelAndLogoutWarning),
                       barrierDismissible: false,
                     ) ??
                     false;
 
                 if (shouldLogout) logout();
               },
-              child: const Text('CANCEL'),
+              child: Text(context.localize(LocKeys.cancel).toUpperCase()),
             ),
           ],
         ),

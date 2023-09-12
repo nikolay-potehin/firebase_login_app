@@ -1,4 +1,5 @@
 import 'package:firebase_login_app/components/my_text_form_field.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:flutter/material.dart';
 
 class WriteMessageForm extends StatelessWidget {
@@ -20,22 +21,22 @@ class WriteMessageForm extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const _FormTitle('Topic'),
+          _FormTitle(context.localize(LocKeys.messageTopic)),
           ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 140),
             child: MyTextFormField(
               controller: titleController,
-              hintText: 'Message topic',
+              hintText: context.localize(LocKeys.messageTopicHint),
               inputFormatters: const [],
               maxLines: null,
             ),
           ),
-          const _FormTitle('Message'),
+          _FormTitle(context.localize(LocKeys.messageContent)),
           ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 400),
             child: MyTextFormField(
               controller: contentController,
-              hintText: 'Message content',
+              hintText: context.localize(LocKeys.messageContentHint),
               inputFormatters: const [],
               maxLines: null,
             ),

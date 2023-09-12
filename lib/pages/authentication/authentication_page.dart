@@ -1,6 +1,7 @@
-import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/pages/authentication/login/login_page.dart';
 import 'package:firebase_login_app/pages/authentication/register/register_page.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       onWillPop: () async {
         final shouldPop = await Utils.showWarning(
           context,
-          title: 'Do you want to exit app?',
+          title: context.localize(LocKeys.onAppExitWarning),
         );
 
         return shouldPop ?? false;

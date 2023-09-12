@@ -1,3 +1,4 @@
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/pages/authentication/register/components/new_account_title.dart';
 import 'package:firebase_login_app/pages/authentication/register/register_form.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,10 @@ class RegisterPage extends StatelessWidget {
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  const Text("Already a user?"),
+                  Text(context.localize(LocKeys.alreadyAUser)),
                   TextButton(
                     onPressed: () => switchToLoginPage(),
-                    child: const Text('Login'),
+                    child: Text(context.localize(LocKeys.goLogin)),
                   ),
                 ],
               ),

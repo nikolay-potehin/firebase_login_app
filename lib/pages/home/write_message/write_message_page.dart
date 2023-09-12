@@ -1,11 +1,12 @@
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/pages/home/write_message/user_info_card.dart';
 import 'package:firebase_login_app/pages/home/write_message/write_message_form.dart';
 import 'package:firebase_login_app/repositories/messaging_repository.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 
 class WriteMessagePage extends StatefulWidget {
@@ -37,7 +38,7 @@ class _WriteMessagePageState extends State<WriteMessagePage> {
     final toUser = widget.toUser;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('New Message')),
+      appBar: AppBar(title: Text(context.localize(LocKeys.newMessage))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         child: Column(

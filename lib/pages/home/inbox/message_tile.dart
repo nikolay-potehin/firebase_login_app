@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_login_app/components/user_avatar.dart';
 import 'package:firebase_login_app/extensions/timestamp_extensions.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/inbox_appbar_manager.dart';
 import 'package:firebase_login_app/models/message_data.dart';
 import 'package:firebase_login_app/models/user_avatars.dart';
@@ -80,7 +81,7 @@ class _MessageTileState extends State<MessageTile> {
       child: Column(
         children: [
           Text(
-            message.sendAtTime.toShortTimeString(),
+            message.sendAtTime.toShortTimeString(context),
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontWeight: fontWeight,
@@ -104,7 +105,7 @@ class _MessageTileState extends State<MessageTile> {
         children: [
           Text(
             asSended
-                ? 'To: ${message.toUser.displayName}'
+                ? '${context.localize(LocKeys.to)}: ${message.toUser.displayName}'
                 : message.fromUser.displayName,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,

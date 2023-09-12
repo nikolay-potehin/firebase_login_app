@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
+import 'package:flutter/material.dart';
 
 extension TimestampExtensions on Timestamp {
   String toTimeString() {
@@ -9,7 +11,7 @@ extension TimestampExtensions on Timestamp {
     return '$date, $time';
   }
 
-  String toShortTimeString() {
+  String toShortTimeString(BuildContext context) {
     final dateTime = toDate();
     if (dateTime.day == DateTime.now().day) {
       final hour = dateTime.hour.toString().padLeft(2, '0');
@@ -17,21 +19,21 @@ extension TimestampExtensions on Timestamp {
 
       return '$hour:$minute';
     }
-    return '${dateTime.day} ${_months[dateTime.month]}.';
+    return '${dateTime.day} ${context.localize(_months[dateTime.month - 1])}.';
   }
 
-  static final List<String> _months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
+  static final List<LocKeys> _months = [
+    LocKeys.monthJan,
+    LocKeys.monthFeb,
+    LocKeys.monthMar,
+    LocKeys.monthApr,
+    LocKeys.monthMay,
+    LocKeys.monthJun,
+    LocKeys.monthJul,
+    LocKeys.monthAug,
+    LocKeys.monthSep,
+    LocKeys.monthOct,
+    LocKeys.monthNov,
+    LocKeys.monthDec,
   ];
 }

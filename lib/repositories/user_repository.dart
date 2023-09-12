@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
+import 'package:firebase_login_app/utils.dart';
 
 class UserRepository {
   static User? get user => FirebaseAuth.instance.currentUser;
@@ -17,8 +18,7 @@ class UserRepository {
       await _updateLastSingInTime();
       return true;
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(
-          e.message ?? 'Authentication failed, please try again later');
+      Utils.showMessage(e.toLocKey());
       return false;
     }
   }
@@ -38,8 +38,7 @@ class UserRepository {
 
       return true;
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(
-          e.message ?? 'Registration failed, please try again later');
+      Utils.showMessage(e.toLocKey());
       return false;
     }
   }
@@ -51,8 +50,7 @@ class UserRepository {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return true;
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message ??
-          'Couldn\'t send password reset email, please try again later');
+      Utils.showMessage(e.toLocKey());
       return false;
     }
   }
@@ -62,8 +60,7 @@ class UserRepository {
       await FirebaseAuth.instance.currentUser!.sendEmailVerification();
       return true;
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message ??
-          'Couldn\'t send password reset email, please try again later');
+      Utils.showMessage(e.toLocKey());
       return false;
     }
   }
@@ -75,8 +72,7 @@ class UserRepository {
       await FirebaseAuth.instance.currentUser!.reload();
       await _updateLastSingInTime();
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(
-          e.message ?? 'Couldn\'t reload user, please try again later');
+      Utils.showMessage(e.toLocKey());
     }
   }
 
@@ -99,7 +95,7 @@ class UserRepository {
       });
     } on FirebaseException catch (e) {
       logout();
-      Utils.showSnackBar(e.message ?? 'Couldn\'t find user, please login');
+      Utils.showMessage(e.toLocKey());
     }
   }
 }

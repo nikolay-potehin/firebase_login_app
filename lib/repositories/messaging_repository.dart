@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/message_data.dart';
-import 'package:firebase_login_app/models/utils.dart';
+import 'package:firebase_login_app/utils.dart';
 
 class MessagingRepository {
   static Future<bool> sendMessage(MessageData messageData) async {
@@ -12,7 +13,7 @@ class MessagingRepository {
         -1;
 
     if (!recipientExists) {
-      Utils.showSnackBar('Such user doesn\'t exists');
+      Utils.showMessage(LocKeys.onSuchUserDoesntExist);
       return false;
     }
 
@@ -28,7 +29,7 @@ class MessagingRepository {
         .collection('receivedMessages')
         .add(messageData.toJson());
 
-    Utils.showSnackBar('Message sent to "${messageData.toUser.email}"');
+    Utils.showMessage(LocKeys.messageSentSuccessfully);
     return true;
   }
 

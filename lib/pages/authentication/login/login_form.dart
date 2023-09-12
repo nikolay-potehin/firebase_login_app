@@ -1,9 +1,10 @@
 import 'package:firebase_login_app/components/my_text_form_field.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/form_validator.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/authentication/email_verification/email_verification_page.dart';
 import 'package:firebase_login_app/pages/authentication/forgot_password/forgot_password_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -36,28 +37,29 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           MyTextFormField(
             controller: _emailController,
-            hintText: 'Email',
+            hintText: context.localize(LocKeys.email),
             prefixIcon: const Icon(Icons.email_outlined),
-            validator: FormValidator.validateEmail,
+            validator: (value) => FormValidator.validateEmail(context, value),
           ),
           const SizedBox(height: 12),
           MyTextFormField(
             controller: _passwordController,
             obscureText: true,
             hideButton: true,
-            validator: FormValidator.validatePassword,
-            hintText: 'Password',
+            validator: (value) =>
+                FormValidator.validatePassword(context, value),
+            hintText: context.localize(LocKeys.password),
             prefixIcon: const Icon(Icons.lock_outline),
           ),
           TextButton(
             onPressed: pushForgotPasswordPage,
-            child: const Text('Forgot Password?'),
+            child: Text(context.localize(LocKeys.forgotPassword)),
           ),
           const SizedBox(height: 10),
           FilledButton(
             // onPressed: login,
             onPressed: login,
-            child: const Text('LOGIN'),
+            child: Text(context.localize(LocKeys.loginBtn).toUpperCase()),
           ),
         ],
       ),

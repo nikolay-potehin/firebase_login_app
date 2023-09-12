@@ -1,3 +1,4 @@
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:flutter/material.dart';
 
 class NewAccountTitle extends StatelessWidget {
@@ -5,20 +6,20 @@ class NewAccountTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Create Account',
-          style: TextStyle(
+          context.localize(LocKeys.createAccountTitle),
+          style: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w800,
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
-          'Create New Account',
-          style: TextStyle(color: Colors.grey),
+          context.localize(LocKeys.createAccountSubtitle),
+          style: const TextStyle(color: Colors.grey),
         ),
       ],
     );

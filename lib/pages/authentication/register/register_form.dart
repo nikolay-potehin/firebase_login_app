@@ -1,8 +1,9 @@
 import 'package:firebase_login_app/components/my_text_form_field.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/form_validator.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/pages/authentication/email_verification/email_verification_page.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -36,15 +37,15 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           MyTextFormField(
             controller: _usernameController,
-            validator: FormValidator.validateDefault,
-            hintText: 'Name',
+            validator: (value) => FormValidator.validateDefault(context, value),
+            hintText: context.localize(LocKeys.name),
             prefixIcon: const Icon(Icons.person_outline),
           ),
           const SizedBox(height: 12),
           MyTextFormField(
             controller: _emailController,
-            validator: FormValidator.validateEmail,
-            hintText: 'Email',
+            validator: (value) => FormValidator.validateEmail(context, value),
+            hintText: context.localize(LocKeys.email),
             prefixIcon: const Icon(Icons.email_outlined),
           ),
           const SizedBox(height: 12),
@@ -53,11 +54,12 @@ class _RegisterFormState extends State<RegisterForm> {
             obscureText: true,
             hideButton: true,
             validator: (password) => FormValidator.validatePassword(
+              context,
               password,
               compareTo: _passwordConfirmController.text,
             ),
             prefixIcon: const Icon(Icons.lock_outline),
-            hintText: 'Password',
+            hintText: context.localize(LocKeys.password),
           ),
           const SizedBox(height: 12),
           MyTextFormField(
@@ -65,16 +67,17 @@ class _RegisterFormState extends State<RegisterForm> {
             obscureText: true,
             hideButton: true,
             validator: (password) => FormValidator.validatePassword(
+              context,
               password,
               compareTo: _passwordController.text,
             ),
-            hintText: 'Confrim Password',
+            hintText: context.localize(LocKeys.confirmPassword),
             prefixIcon: const Icon(Icons.lock_outline),
           ),
           const SizedBox(height: 30),
           FilledButton(
             onPressed: _registerButtonPressed,
-            child: const Text('CREATE ACCOUNT'),
+            child: Text(context.localize(LocKeys.registerBtn).toUpperCase()),
           ),
         ],
       ),

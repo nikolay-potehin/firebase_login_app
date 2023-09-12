@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/users_model.dart';
 import 'package:firebase_login_app/pages/home/users/users_view.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class UsersPage extends StatelessWidget {
       builder: (context, model, _) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Users'),
+            title: Text(context.localize(LocKeys.users)),
             actions: [
               IconButton(
                 onPressed: () async => showSearch(

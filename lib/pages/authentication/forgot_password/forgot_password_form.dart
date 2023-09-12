@@ -1,7 +1,8 @@
 import 'package:firebase_login_app/components/my_text_form_field.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/form_validator.dart';
-import 'package:firebase_login_app/models/utils.dart';
 import 'package:firebase_login_app/repositories/user_repository.dart';
+import 'package:firebase_login_app/utils.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
@@ -31,14 +32,14 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         children: [
           MyTextFormField(
             controller: emailController,
-            hintText: 'Email',
+            hintText: context.localize(LocKeys.email),
             prefixIcon: const Icon(Icons.email_outlined),
-            validator: FormValidator.validateEmail,
+            validator: (value) => FormValidator.validateEmail(context, value),
           ),
           const SizedBox(height: 10),
           FilledButton(
             onPressed: resetPassword,
-            child: const Text('RESET PASSWORD'),
+            child: Text(context.localize(LocKeys.resetPassword).toUpperCase()),
           ),
         ],
       ),
@@ -56,8 +57,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
     );
 
     if (success && mounted) {
-      Utils.showSnackBar(
-          'Reset password email has been send to "$email" successfuly');
+      Utils.showMessage(LocKeys.resetPasswordEmailHasBeenSentSuccessfully);
 
       Navigator.of(context).pop();
     }

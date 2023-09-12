@@ -1,4 +1,6 @@
 import 'package:firebase_login_app/extensions/string_extensions.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
+import 'package:firebase_login_app/localization/localization_keys.dart';
 import 'package:firebase_login_app/models/inbox_model.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +26,9 @@ class EmptyInboxWidget extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Your "${filter.name.capitalize()}" folder is empty',
+              '${context.localize(LocKeys.yourFolderIs)}'
+              ' "${context.localize(filter.toLocKey()).capitalize()}" '
+              '${context.localize(LocKeys.folderIsEmpty)}',
               style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),

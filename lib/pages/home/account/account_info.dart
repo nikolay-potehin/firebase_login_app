@@ -1,4 +1,6 @@
+import 'package:firebase_login_app/extensions/string_extensions.dart';
 import 'package:firebase_login_app/extensions/timestamp_extensions.dart';
+import 'package:firebase_login_app/localization/app_localization.dart';
 import 'package:firebase_login_app/models/user_data.dart';
 import 'package:firebase_login_app/theme.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +34,7 @@ class AccountInfo extends StatelessWidget {
         ),
         const Divider(thickness: 1, height: 32),
         Text(
-          'Created at: ${user.creationTime.toTimeString()}',
+          '${context.localize(LocKeys.createdAt).capitalize()}: ${user.creationTime.toTimeString()}',
           style: const TextStyle(
             fontSize: 18,
             color: Colors.grey,
