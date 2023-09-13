@@ -39,6 +39,8 @@ class AppLocalization {
       LocKeys.onUserNotFoundError: "Sorry, such user was not found",
       LocKeys.onNetworkRequestFailed:
           "Couldn't connect to the server. Please, check your internet connection",
+      LocKeys.onRequiresRecentLogin:
+          "For this operation, please authenticate first",
       LocKeys.onEmailAlreadyInUse:
           "This email is already in use. Please, try a different email",
       LocKeys.onWrongPassword: "Incorrect password. Please try again",
@@ -102,9 +104,9 @@ class AppLocalization {
       LocKeys.emailVerification: "Email Verification",
       LocKeys.aVerificationEmailHasBeenSentToYourEmail:
           "A verification email has been sent to your email",
-      LocKeys.cancelAndLogout: "Cancel & Log out",
-      LocKeys.cancelAndLogoutWarning:
-          "You sure you want to cancel email verification & log out?",
+      LocKeys.cancelRegistration: "Cancel registration process",
+      LocKeys.cancelRegistrationWarning:
+          "You sure you want to cancel registration process?",
       LocKeys.cancel: "Cancel",
 
       // Home Page
@@ -164,6 +166,8 @@ class AppLocalization {
           "Такого пользователя не существует. Пожалуйста, попробуйте ввести другие данные",
       LocKeys.onNetworkRequestFailed:
           "Не получилось подключиться к серверу. Пожалуйста, проверьте ваше интернет соединение",
+      LocKeys.onRequiresRecentLogin:
+          "Для выполнения этой операции, пожалуйста, авторизуйтесь",
       LocKeys.onEmailAlreadyInUse:
           "Этот электронный адрес уже занят. Пожалуйста, попробуйте другую почту",
       LocKeys.onWrongPassword:
@@ -229,9 +233,9 @@ class AppLocalization {
       LocKeys.emailVerification: "Подтверждение почты",
       LocKeys.aVerificationEmailHasBeenSentToYourEmail:
           "На вашу почту было отправлено письмо с подтверждением регистрации",
-      LocKeys.cancelAndLogout: "Отменить и выйти",
-      LocKeys.cancelAndLogoutWarning:
-          "Вы уверены, что хотите прервать процесс регистрации и выйти?",
+      LocKeys.cancelRegistration: "Отменить регистрацию",
+      LocKeys.cancelRegistrationWarning:
+          "Вы уверены, что хотите отменить регистрацию аккаунта?",
       LocKeys.cancel: "Отменить",
 
       // Home Page

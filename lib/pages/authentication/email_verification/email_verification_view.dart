@@ -24,8 +24,8 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "${context.localize(LocKeys.aVerificationEmailHasBeenSentToYourEmail)}"
-              " ${UserRepository.user?.email}",
+              '${context.localize(LocKeys.aVerificationEmailHasBeenSentToYourEmail)}'
+              ' "${UserRepository.user?.email}"',
               style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             ),
@@ -34,13 +34,14 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
               onPressed: () async {
                 final shouldLogout = await Utils.showWarning(
                       context,
-                      title: context.localize(LocKeys.cancelAndLogout),
-                      content: context.localize(LocKeys.cancelAndLogoutWarning),
+                      title: context.localize(LocKeys.cancelRegistration),
+                      content:
+                          context.localize(LocKeys.cancelRegistrationWarning),
                       barrierDismissible: false,
                     ) ??
                     false;
 
-                if (shouldLogout) logout();
+                if (shouldLogout) deleteUser();
               },
               child: Text(context.localize(LocKeys.cancel).toUpperCase()),
             ),
@@ -50,8 +51,8 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
     );
   }
 
-  void logout() {
-    UserRepository.logout();
+  void deleteUser() {
+    UserRepository.delete();
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (_) => const AuthenticationPage(),

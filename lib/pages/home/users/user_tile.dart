@@ -20,6 +20,11 @@ class UserTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = UserData.fromDocument(userDoc);
     final isCurrentUser = user.email == UserRepository.user?.email;
+    final isEmailVerified = user.isEmailVerified;
+
+    if (!isEmailVerified) {
+      return const SizedBox();
+    }
 
     return Card(
       child: ListTile(

@@ -15,7 +15,7 @@ class UserRepository {
         email: email,
         password: password,
       );
-      await _updateLastSingInTime();
+      await _updateUserDetails();
       return true;
     } on FirebaseAuthException catch (e) {
       Utils.showMessage(e.toLocKey());
@@ -45,6 +45,16 @@ class UserRepository {
 
   static Future<void> logout() => FirebaseAuth.instance.signOut();
 
+  static Future<void> delete() async {
+    try {
+      await _deleteUserDoc();
+      await FirebaseAuth.instance.currentUser?.delete();
+    } on FirebaseAuthException catch (e) {
+      FirebaseAuth.instance.signOut();
+      Utils.showMessage(e.toLocKey());
+    }
+  }
+
   static Future<bool> sendPasswordResetEmail(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
@@ -70,10 +80,17 @@ class UserRepository {
 
     try {
       await FirebaseAuth.instance.currentUser!.reload();
-      await _updateLastSingInTime();
+      await _updateUserDetails();
     } on FirebaseAuthException catch (e) {
       Utils.showMessage(e.toLocKey());
     }
+  }
+
+  static Future<void> _deleteUserDoc() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.email)
+        .delete();
   }
 
   static Future<void> _setUserDetails() async {
@@ -85,13 +102,14 @@ class UserRepository {
     });
   }
 
-  static Future<void> _updateLastSingInTime() async {
+  static Future<void> _updateUserDetails() async {
     try {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(user!.email)
           .update({
         'lastSignInTime': user!.metadata.lastSignInTime,
+        'isEmailVerified': user!.emailVerified,
       });
     } on FirebaseException catch (e) {
       logout();

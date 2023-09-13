@@ -15,6 +15,8 @@ extension FirebaseExceptionExtensions on FirebaseException {
         return LocKeys.onEmailAlreadyInUse;
       case 'wrong-password':
         return LocKeys.onWrongPassword;
+      case 'requires-recent-login':
+        return LocKeys.onRequiresRecentLogin;
       default:
         return LocKeys.onErrorDefault;
     }
@@ -45,6 +47,7 @@ enum LocKeys {
   onErrorDefault,
   onUserNotFoundError,
   onNetworkRequestFailed,
+  onRequiresRecentLogin,
   onEmailAlreadyInUse,
   onWrongPassword,
 
@@ -105,8 +108,8 @@ enum LocKeys {
   // Email Verification Page
   emailVerification,
   aVerificationEmailHasBeenSentToYourEmail,
-  cancelAndLogout,
-  cancelAndLogoutWarning,
+  cancelRegistration,
+  cancelRegistrationWarning,
   cancel,
 
   // Home Page
