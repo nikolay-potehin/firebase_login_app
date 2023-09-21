@@ -3,7 +3,6 @@ import 'package:firebase_login_app/models/inbox_model.dart';
 
 extension FirebaseExceptionExtensions on FirebaseException {
   LocKeys toLocKey() {
-    print(code);
     switch (code) {
       case 'user-not-found':
         return LocKeys.onUserNotFoundError;

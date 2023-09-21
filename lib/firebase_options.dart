@@ -57,7 +57,8 @@ class DefaultFirebaseOptions {
     appId: '1:1041880438023:android:b8de00a5856e4ecb4861a2',
     messagingSenderId: '1041880438023',
     projectId: 'flutter-firebase-app-e6fb9',
-    databaseURL: 'https://flutter-firebase-app-e6fb9-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://flutter-firebase-app-e6fb9-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'flutter-firebase-app-e6fb9.appspot.com',
   );
 }
