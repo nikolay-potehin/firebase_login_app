@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -52,13 +49,23 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDjurUXNmsfqY0LxBHQ3rSU7rtBqMx3ASw',
+    appId: '1:1041880438023:web:8342db5f582d0efd4861a2',
+    messagingSenderId: '1041880438023',
+    projectId: 'flutter-firebase-app-e6fb9',
+    authDomain: 'flutter-firebase-app-e6fb9.firebaseapp.com',
+    databaseURL: 'https://flutter-firebase-app-e6fb9-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'flutter-firebase-app-e6fb9.appspot.com',
+    measurementId: 'G-EN3Z41SNHZ',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDsUGa9-LuXTEzhhm9zNcbDEwUla9LHJA4',
     appId: '1:1041880438023:android:b8de00a5856e4ecb4861a2',
     messagingSenderId: '1041880438023',
     projectId: 'flutter-firebase-app-e6fb9',
-    databaseURL:
-        'https://flutter-firebase-app-e6fb9-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL: 'https://flutter-firebase-app-e6fb9-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'flutter-firebase-app-e6fb9.appspot.com',
   );
 }
